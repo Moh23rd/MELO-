@@ -385,6 +385,93 @@ html.nm .pl-mesh,html.lite .pl-mesh{animation:none}
 #bsr input::placeholder{color:rgba(60,60,67,.62)}
 html.dk #bsr input::placeholder{color:rgba(255,255,255,.58)}
 html.pwa .set:has([data-st=bbar]){display:none!important}
+/* ===== v30 ===== */
+/* theme colours can animate, so switching themes (and the dynamic theme) glides */
+@property --bg{syntax:'<color>';inherits:true;initial-value:#ffffff}
+@property --fg{syntax:'<color>';inherits:true;initial-value:#111111}
+@property --mut{syntax:'<color>';inherits:true;initial-value:#777777}
+@property --card{syntax:'<color>';inherits:true;initial-value:#f2f2f4}
+@property --line{syntax:'<color>';inherits:true;initial-value:#e3e3e6}
+@property --dyn{syntax:'<color>';inherits:true;initial-value:#16161a}
+html{transition:--bg .5s ease,--fg .5s ease,--mut .5s ease,--card .5s ease,--line .5s ease,--dyn 1.3s ease}
+/* dynamic color theme */
+html.dyn.dyn{--bg:color-mix(in oklab,var(--dyn) 78%,#000);--card:color-mix(in oklab,var(--dyn) 48%,#101014);--line:rgba(255,255,255,.14);--fg:#ffffff;--mut:rgba(255,255,255,.64);background:linear-gradient(180deg,color-mix(in oklab,var(--dyn) 84%,#000),color-mix(in oklab,var(--dyn) 36%,#000)) fixed}
+html.dyn.dyn body{background:transparent}
+/* blur layers must never sit inside a faded parent: a parent with opacity < 1 becomes a backdrop root and the blur disappears */
+#nav{opacity:1!important}
+#nav .pb,#nav::after{opacity:var(--ns,0)}
+.dfade{opacity:1!important}
+.dfade .pb,.dfade::after{opacity:var(--sc,0)}
+/* audio output menu follows the same glass as every other menu */
+html #sheet .pop.op{background:linear-gradient(135deg,var(--gm1),var(--gm2))!important;-webkit-backdrop-filter:blur(calc(var(--gmb)*1.35)) saturate(200%) brightness(1.06);backdrop-filter:blur(calc(var(--gmb)*1.35)) saturate(200%) brightness(1.06);border:.5px solid var(--gmbd);box-shadow:var(--gmsh),inset 0 1px 0 var(--gmhi)}
+html:not(.dk) #sheet .pop.op{color:#111!important}
+html:not(.dk) .oh .t span,html:not(.dk) #sheet .pop .orow2{color:rgba(60,60,67,.7)!important}
+html:not(.dk) #sheet .pop .orow{background:rgba(0,0,0,.07)}
+html:not(.dk) #sheet .pop .orow.on{background:rgba(0,0,0,.13)}
+html:not(.dk) #sheet .pop.op .oh .t span{color:rgba(60,60,67,.7)!important}
+/* keyboard reported by the browser (no measuring, no stale gaps) */
+html.vk.kb #bot{bottom:env(keyboard-inset-height,0px)!important}
+html.vk.kb #main,html.vk.kb #det{bottom:env(keyboard-inset-height,0px)}
+html.vk #wl{bottom:env(keyboard-inset-height,0px)}
+/* rails stretch at their ends */
+.rb>*{transform:translate3d(var(--rx,0px),0,0)!important;transition:none!important}
+/* full screen hint */
+#fsh{position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);left:50%;transform:translate(-50%,-14px);opacity:0;z-index:70;padding:10px 18px;border-radius:22px;font-weight:700;font-size:14px;color:var(--fg);background:linear-gradient(135deg,var(--gm1),var(--gm2));-webkit-backdrop-filter:blur(var(--gmb)) saturate(190%);backdrop-filter:blur(var(--gmb)) saturate(190%);border:.5px solid var(--gmbd);box-shadow:var(--gmsh);transition:opacity .4s ease,transform .5s var(--ease);pointer-events:none}
+#fsh.in{opacity:1;transform:translate(-50%,0)}
+html.pwafs .set:has([data-st=dmode]){display:none!important}
+/* welcome screens */
+#wl{position:fixed;inset:0;z-index:60;overflow:hidden;color:#2d2d33;opacity:0;transition:opacity .5s ease,transform .6s var(--ease);font-family:inherit}
+#wl.in{opacity:1}#wl.bye{opacity:0;transform:scale(1.05)}
+html.dk #wl{color:#fff}
+.wl-bg{position:absolute;inset:0;overflow:hidden;background:linear-gradient(165deg,#d6f8a2 0%,#f5fbab 36%,#ffffff 100%)}
+html.dk .wl-bg{background:linear-gradient(165deg,#0d2a24 0%,#1c1a38 55%,#09090d 100%)}
+.wl-bg i{position:absolute;width:90vmax;height:90vmax;border-radius:50%;animation:wlf 24s ease-in-out infinite alternate;will-change:transform}
+.wl-bg i:nth-child(1){left:-46vmax;top:-34vmax;background:radial-gradient(circle,rgba(163,230,53,.78),transparent 62%)}
+.wl-bg i:nth-child(2){right:-52vmax;top:18vh;background:radial-gradient(circle,rgba(251,207,232,.85),transparent 62%);animation-duration:29s}
+.wl-bg i:nth-child(3){left:-42vmax;bottom:-48vmax;background:radial-gradient(circle,rgba(104,196,140,.85),transparent 62%);animation-duration:33s}
+html.dk .wl-bg i:nth-child(1){background:radial-gradient(circle,rgba(20,184,166,.5),transparent 62%)}
+html.dk .wl-bg i:nth-child(2){background:radial-gradient(circle,rgba(168,85,247,.42),transparent 62%)}
+html.dk .wl-bg i:nth-child(3){background:radial-gradient(circle,rgba(250,45,72,.34),transparent 62%)}
+@keyframes wlf{to{transform:translate3d(9vmax,5vmax,0) scale(1.12)}}
+.wl-s{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 14px) 24px calc(env(safe-area-inset-bottom,0px) + 22px);opacity:0;transform:translateX(44px);pointer-events:none;transition:opacity .45s ease,transform .6s var(--ease)}
+.wl-s.on{opacity:1;transform:none;pointer-events:auto}.wl-s.out{transform:translateX(-44px)}
+.wl-skip{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);right:22px;height:46px;padding:0 24px;border-radius:23px;font-weight:800;font-size:18px;color:var(--acc);background:rgba(255,255,255,.52);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:.5px solid rgba(255,255,255,.85);transition:transform .15s}
+html.dk .wl-skip{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+.wl-skip:active,.wl-cta:active{transform:scale(.96)}
+.wl-top{margin-top:clamp(70px,19vh,190px)}
+.wl-top h1{font-size:clamp(76px,23vw,118px);line-height:.9;font-weight:800;letter-spacing:-.045em;opacity:.58;margin:0}
+.wl-top p{font-size:20px;font-weight:700;opacity:.55;margin:12px 0 0}
+.wl-top.two{margin-top:clamp(70px,13vh,140px);text-align:center}
+.wl-top.two h2{font-size:36px;font-weight:800;opacity:.78;margin:0}
+.wl-top.two p{font-size:19px;opacity:.55;margin-top:8px}
+.wl-av{position:relative;width:92px;height:92px;border-radius:50%;margin:clamp(22px,5vh,46px) 0 18px;display:grid;place-items:center;color:rgba(45,45,51,.7);background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:.5px solid rgba(255,255,255,.9);box-shadow:0 10px 28px rgba(0,0,0,.07);transition:transform .2s var(--ease)}
+html.dk .wl-av{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.75)}
+.wl-av:active{transform:scale(.94)}
+.wl-av span,.wl-av b{display:grid;place-items:center;position:absolute;inset:0;border-radius:50%;background-size:cover;background-position:center}
+.wl-av i{position:absolute;right:-2px;bottom:-2px;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;border:2px solid #fff}
+.wl-in{display:flex;align-items:center;gap:14px;height:66px;padding:0 22px;border-radius:33px;color:rgba(45,45,51,.65);background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,232,236,.62));-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border:.5px solid rgba(255,255,255,.95);box-shadow:0 12px 32px rgba(0,0,0,.06)}
+html.dk .wl-in{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.7)}
+.wl-in input{flex:1;min-width:0;border:0;outline:0;background:none;font-weight:700;font-size:21px;line-height:1.2;font-family:inherit;color:inherit}
+.wl-in input::placeholder{color:rgba(45,45,51,.5)}html.dk .wl-in input::placeholder{color:rgba(255,255,255,.5)}
+.wl-dis{font-size:15px;font-weight:600;line-height:1.36;opacity:.5;margin:14px 8px 0}.wl-dis.c{text-align:center;margin-top:30px}
+.wl-cta{margin-top:auto;height:66px;border-radius:33px;background:var(--acc);color:#fff;font-weight:800;font-size:22px;line-height:1;font-family:inherit;box-shadow:0 14px 30px color-mix(in srgb,var(--acc) 38%,transparent);transition:transform .15s var(--ease)}
+.wl-modes{display:flex;justify-content:center;gap:clamp(22px,8vw,48px);margin-top:34px}
+.wl-m{display:flex;flex-direction:column;align-items:center;gap:14px;font-weight:800;font-size:22px;opacity:.72;transition:opacity .3s,transform .35s var(--ease)}
+.wl-m.on{opacity:1;color:var(--acc);transform:translateY(-4px)}
+.wl-m .ck{width:46px;height:46px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;transform:scale(0);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.wl-m:not(.on) .ck{opacity:0}.wl-m.on .ck{transform:scale(1)}
+.wl-ph{width:clamp(120px,34vw,150px);aspect-ratio:150/252;border-radius:28px;background:#f7f5fa;border:3px solid rgba(60,60,67,.22);overflow:hidden;display:flex;flex-direction:column;color:#333;transition:border-color .3s,box-shadow .3s}
+html.dk .wl-ph{background:#1f1e24;border-color:rgba(255,255,255,.2);color:#eee}
+.wl-m.on .wl-ph{border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 35%,transparent)}
+.ph-sb{height:9%;display:flex;justify-content:space-between;align-items:center;padding:0 12px;font-size:8px;font-weight:700}.ph-sb i{font-style:normal}.ph-sb b{width:22px;height:6px;border-radius:3px;background:currentColor;opacity:.55}
+.ph-c{flex:1;padding:12% 9% 0;display:flex;flex-direction:column;gap:7px;overflow:hidden}
+.ph-c .h{display:block;height:11px;width:56%;border-radius:4px;background:currentColor;opacity:.8}.ph-c .l{display:block;height:6px;width:34%;border-radius:3px;background:currentColor;opacity:.25}
+.ph-r{display:flex;align-items:center;gap:6px}.ph-r u{width:19px;height:19px;border-radius:5px;background:linear-gradient(135deg,#d6d6e2,#aeaec2)}.ph-r s{flex:1;height:6px;border-radius:3px;background:currentColor;opacity:.16}
+.ph-g{display:flex;gap:6px;margin-top:5px}.ph-g u{flex:1;height:46px;border-radius:8px;background:linear-gradient(135deg,#f9a8c9,#fdba74)}.ph-g u:nth-child(2){background:linear-gradient(135deg,#7dd3fc,#a5b4fc)}.ph-g u:nth-child(3){background:linear-gradient(135deg,#86efac,#fde68a)}
+.ph-nb{height:8%;display:flex;justify-content:center;align-items:center;gap:18px}.ph-nb i{width:7px;height:7px;border-radius:2px;background:currentColor;opacity:.6}
+.ph-nb i:nth-child(2){border-radius:50%}
+.wl-ph.f .ph-c{padding-top:16%}
+html.dyn.dyn #tb button.on,html.dyn.dyn #tb button.on svg{color:#fff}
 </style></head><body>
 <div id="bgimg"></div><div id="app"><div id="nav"><i class="pb pb4"></i><i class="pb pb3"></i><i class="pb pb2"></i><i class="pb pb1"></i><span id="ntt"></span></div><div id="main"></div><div id="bot"><div id="mini" hidden></div><nav id="tabs"><i class="lens"></i><div id="tb"></div></nav><button id="sbtn" data-t="search" aria-label="Search"></button></div></div>
 <div id="det"></div><div id="full"></div><div id="sheet"></div>
@@ -461,7 +548,7 @@ for(let k=0;k<c&&o<L-4;k++){const l=b.getUint32(o,true);if(l>3e6)break;const kv=
 if(K=='TITLE')t.TIT2=v;else if(K=='ARTIST')t.TPE1=t.TPE1?t.TPE1+', '+v:v;else if(K=='ALBUM')t.TALB=v;else if(K=='LYRICS'||K=='UNSYNCEDLYRICS')t.lyr=v;
 else if(K=='METADATA_BLOCK_PICTURE'){try{const s=atob(v),n=new Uint8Array(s.length);for(let q=0;q<s.length;q++)n[q]=s.charCodeAt(q);const d=new DataView(n.buffer),ml=d.getUint32(4);let p=8+ml;p+=4+d.getUint32(p)+16;t.pic=new Blob([u8(d,p+4,d.getUint32(p))],{type:'image/jpeg'})}catch(e){}}
 o+=4+l}}
-let S={theme:'system',acc:'#fa2d48',blur:28,bgart:true,speed:1,pstyle:'compact',resume:true,wake:false,sort:'title',motion:true,dim:55,bgb:0,fs:false,bounce:true,name:'',rview:'cards',volr:true,bk:true,xf:3,dyn:false,cmp:false,lbl:true,perf:false,lpv:true,lblur:true,pp:true,pfade:true,auto:true,hap:false,ptr:true,tz:1,lz:1,hh:[],ho:null,hapl:null,fmtb:true,mixart:true,bbar:'top'},sleepT=0;try{Object.assign(S,JSON.parse(localStorage.getItem('melo_s')||'{}'))}catch(e){}
+let S={theme:'system',acc:'#fa2d48',blur:28,bgart:true,speed:1,pstyle:'compact',resume:true,wake:false,sort:'title',motion:true,dim:55,bgb:0,fs:false,bounce:true,name:'',rview:'cards',volr:true,bk:true,xf:3,dyn:false,cmp:false,lbl:true,perf:false,lpv:true,lblur:true,pp:true,pfade:true,auto:true,hap:false,ptr:true,tz:1,lz:1,hh:[],ho:null,hapl:null,fmtb:true,mixart:true,bbar:'top',dyc:false},sleepT=0;try{Object.assign(S,JSON.parse(localStorage.getItem('melo_s')||'{}'))}catch(e){}
 const saveS=()=>{try{localStorage.setItem('melo_s',JSON.stringify(S))}catch(e){}};
 function applyS(){const r=document.documentElement;if(S.theme=='system')r.removeAttribute('data-theme');else r.dataset.theme=S.theme;r.style.setProperty('--acc',S.acc);r.style.setProperty('--bl',S.blur+'px');A.defaultPlaybackRate=A.playbackRate=S.speed;$('#full').classList.toggle('nobg',!S.bgart);r.classList.toggle('nm',!S.motion);r.style.setProperty('--dim',S.dim+'%');if(qi>=0)buildFull(byId(queue[qi]));wake();navAdapt();fsTick();r.style.setProperty('--bgb',S.bgb+'px');applyX()}
 const sw=['#fa2d48','#ff9500','#ffd60a','#30d158','#0a84ff','#bf5af2','#ff375f'];
@@ -710,7 +797,7 @@ copy:'<rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="curren
 img:'<rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="2"/><path d="M4 18l5-5 4 4 3-3 4 4" fill="none" stroke="currentColor" stroke-width="2"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/>'});
 /* theme-adaptive nav */
 let bgCol=null,fsPrev=null,fsTried=false;const lum=c=>(.299*c[0]+.587*c[1]+.114*c[2])/255;
-const isDarkUI=()=>S.theme=='dark'||S.theme=='amoled'||(S.theme=='system'&&matchMedia('(prefers-color-scheme:dark)').matches);
+const isDarkUI=()=>window.__dynOn===true||S.theme=='dark'||S.theme=='amoled'||(S.theme=='system'&&matchMedia('(prefers-color-scheme:dark)').matches);
 function navAdapt(){let dark=isDarkUI();if(det)dark=true;else if(K.bg&&bgCol){const base=dark?[0,0,0]:[255,255,255],d=S.dim/100;dark=lum(bgCol.map((c,i)=>c*(1-d)+base[i]*d))<.5}$('#bot').dataset.nav=dark?'dark':'light';{const bt=det?($('#det').style.getPropertyValue('--t')||''):'';$('#bot').style.setProperty('--bt',bt||'var(--acc)')}document.documentElement.classList.toggle('dk',isDarkUI())}
 new MutationObserver(navAdapt).observe($('#det'),{attributes:true,attributeFilter:['class']});matchMedia('(prefers-color-scheme:dark)').addEventListener('change',navAdapt);
 function placeLens(){const T=$('#tabs'),b=T.querySelector('#tb button.on'),l=T.querySelector('.lens');if(!b||!l||!b.offsetWidth)return;l.style.width=b.offsetWidth+'px';l.style.setProperty('--lx',b.offsetLeft+'px')}
@@ -840,10 +927,10 @@ addEventListener('popstate',()=>{guard=false;if(!S.bk)return;if(appBack()){pushG
 let UV=A.volume,fading=false,xfIn=0,xfAuto=false,xfFor='',seekT=null;
 const xfMs=()=>{if(!volOK||!S.xf||document.hidden)return 0;return xfAuto?S.xf*1000:0};
 function ramp(el,mode,level,ms,done){const t0=Date.now();const id=setInterval(()=>{const k=Math.min(1,(Date.now()-t0)/Math.max(1,ms)),g=mode=='in'?Math.sin(k*Math.PI/2):Math.cos(k*Math.PI/2);try{el.volume=Math.max(0,Math.min(1,level*g))}catch(e){}if(k>=1){clearInterval(id);done&&done()}},40);return id}
-function load(){const s=byId(queue[qi]);if(!s)return;const old=urlNow,playing=!A.paused&&!!A.src&&A.currentTime>.5,ms=playing?xfMs():0;xfAuto=false;xfFor='';
+function load(){const s=byId(queue[qi]);if(!s)return;const old=urlNow,playing=!A.paused&&!!A.src&&A.currentTime>.5,ms=playing?xfMs():0,quick=!xfAuto&&playing&&volOK&&!document.hidden&&S.xf>0;xfAuto=false;xfFor='';
 let O=null;if(ms>0){O=new Audio();O.preload='auto';if(OUT.id&&O.setSinkId)O.setSinkId(OUT.id).catch(()=>{});O.src=A.src;O.volume=0;O.playbackRate=A.playbackRate;const t=A.currentTime;O.addEventListener('loadedmetadata',()=>{try{O.currentTime=t+.05}catch(e){}},{once:true})}
 const lvl=A.volume||UV;urlNow=URL.createObjectURL(s.file);startLog(s);let did=false;
-const begin=()=>{if(did)return;did=true;if(xfIn)clearInterval(xfIn);
+const begin=()=>{if(did)return;did=true;if(xfIn)clearInterval(xfIn);if(quick){fading=true;ramp(A,'out',A.volume||lvl,110,()=>{A.src=urlNow;A.volume=0;A.play().catch(()=>{pendingPlay=true});xfIn=ramp(A,'in',UV,260,()=>{fading=false;A.volume=UV});if(old)URL.revokeObjectURL(old)});return}
 if(O){O.volume=lvl;fading=true;A.volume=0;A.src=urlNow;A.play().catch(()=>{pendingPlay=true});xfIn=ramp(A,'in',UV,ms,()=>{fading=false;A.volume=UV});ramp(O,'out',lvl,ms,()=>{O.pause();O.removeAttribute('src');O.load();if(old)URL.revokeObjectURL(old)})}
 else{fading=false;A.src=urlNow;A.volume=UV;A.play().catch(()=>{pendingPlay=true});if(old)URL.revokeObjectURL(old)}};
 if(O){O.addEventListener('playing',begin,{once:true});O.play().catch(begin);setTimeout(begin,700)}else begin();
@@ -854,8 +941,8 @@ function seekEnd(r){hap('tick');if(seekT==null&&!r.d)return;const v=+r.value;see
 function smoothSeek(v){if(!volOK||A.paused||fading||document.hidden){A.currentTime=v;return}const lv=A.volume;fading=true;ramp(A,'out',lv,70,()=>{A.currentTime=v;ramp(A,'in',UV,150,()=>{fading=false;A.volume=UV})})}
 /* ===== v9: performance, refresh, settings ===== */
 Object.assign(IC,{refresh:'<path d="M20 12a8 8 0 11-2.3-5.6M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'});
-const SDEF={theme:'system',acc:'#fa2d48',blur:28,bgart:true,speed:1,pstyle:'compact',resume:true,wake:false,sort:'title',motion:true,dim:55,bgb:0,fs:false,bounce:true,name:'',rview:'cards',volr:true,bk:true,xf:3,dyn:false,cmp:false,lbl:true,perf:false,lpv:true,lblur:true,pp:true,pfade:true,auto:true,hap:false,ptr:true,tz:1,lz:1,hh:[],ho:null,hapl:null,fmtb:true,mixart:true,bbar:'top'};
-const TOG=['mixart','pfont','dyn','cmp','lbl','perf','lpv','lblur','pp','pfade','auto','hap','ptr','fmtb'];let sqv='';
+const SDEF={theme:'system',acc:'#fa2d48',blur:28,bgart:true,speed:1,pstyle:'compact',resume:true,wake:false,sort:'title',motion:true,dim:55,bgb:0,fs:false,bounce:true,name:'',rview:'cards',volr:true,bk:true,xf:3,dyn:false,cmp:false,lbl:true,perf:false,lpv:true,lblur:true,pp:true,pfade:true,auto:true,hap:false,ptr:true,tz:1,lz:1,hh:[],ho:null,hapl:null,fmtb:true,mixart:true,bbar:'top',dyc:false};
+const TOG=['dyc','mixart','pfont','dyn','cmp','lbl','perf','lpv','lblur','pp','pfade','auto','hap','ptr','fmtb'];let sqv='';
 /* thumbnails: tiny covers for lists keep markup light */
 const THU={};const thQ=new Set();let thT=0;
 const thumbOf=u=>new Promise(r=>{if(!u)return r(null);const i=new Image();i.onload=()=>{const m=Math.min(1,480/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.max(1,i.width*m);c.height=Math.max(1,i.height*m);c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.86))};i.onerror=()=>r(null);i.src=u});
@@ -895,19 +982,19 @@ const setHTML2=()=>`<h1>Settings</h1><div class="ssb">${svg('search',18)}<input 
 <div class="grp"><div class="set pcrd" data-a="profile">${K.pimg?`<span class="pa" style="background-image:url(${K.pimg})"></span>`:`<span class="pa">${svg('profile',26)}</span>`}<div class="t"><b>${S.name?esc(S.name):'Set up your profile'}</b><span>Name and photo</span></div>${svg('chev',18)}</div></div>
 <div class="grp"><div class="gt">${gi('drop','#ff9f0a')}Appearance</div>${segr('Theme','theme',[['system','System'],['light','Light'],['dark','Dark'],['amoled','AMOLED']])}
 <div class="set"><span>Accent color</span><div class="sws">${sw.map(c=>`<button class="sw ${S.acc==c?'on':''}" data-st="acc" data-v="${c}" style="background:${c}"></button>`).join('')}<input type="color" id="cc" value="${S.acc}"></div></div>
-${tgr('Accent follows artwork','dyn','Tints the app to match the playing song')}<div class="set"><span>Glass blur</span><input type="range" id="bl" min="0" max="50" value="${S.blur}"></div>
+${tgr('Accent follows artwork','dyn','Tints the app to match the playing song')}${tgr('Dynamic color theme','dyc','The whole app takes the color of the song that is playing')}<div class="set"><span>Glass blur</span><input type="range" id="bl" min="0" max="50" value="${S.blur}"></div>
 ${segr('Text size','tz',[[.9,'Small'],[1,'Default'],[1.12,'Large']])}${tgr('Compact lists','cmp')}${tgr('Tab bar labels','lbl')}${segr('Browser address bar','bbar',[['top','Top'],['bottom','Bottom']])}${tgr('Animations','motion')}${tgr('Bounce effect','bounce')}${tgr('Performance mode','perf','No blur or shadows, for the smoothest scrolling')}
 <div class="set"><span>Custom background</span><div class="seg3"><button class="pill" data-a="bgpick">${K.bg?'Change':'Choose'}</button>${K.bg?'<button class="pill" data-a="bgrm">Remove</button>':''}</div></div>
 ${K.bg?`<div class="set"><span>Background dim</span><input type="range" id="dim" min="0" max="90" value="${S.dim}"></div><div class="set"><span>Background blur</span><input type="range" id="bgb" min="0" max="40" value="${S.bgb}"></div>`:''}
 <div class="set"><span>Custom font</span><div class="seg3"><button class="pill" data-a="fontpick">${K.font?'Change':'Choose'}</button>${K.font?'<button class="pill" data-a="fontrm">Remove</button>':''}</div></div>${btnr('Reset appearance to default',[['reset','Reset']])}</div>
-<div class="grp"><div class="gt">${gi('play','#fa2d48')}Player</div>${segr('Player style','pstyle',[['compact','Compact'],['full','Full screen']])}${tgr('Artwork glow','bgart')}${tgr('Use my custom font','pfont','Off uses the Apple-style system font everywhere')}${tgr('Blur unfocused lyrics','lblur')}${segr('Lyrics size','lz',[[.9,'Small'],[1,'Default'],[1.2,'Large']])}${tgr('Audio format badge','fmtb','Shows Lossless, MP3, etc. under the seek bar')}${tgr('Show volume slider','volr')}${segr('Player background','pbg',[['mesh','Color mesh'],['art','Artwork blur']])}${segr('Audio output icon','outm',[['auto','Auto'],['spk','Speaker'],['ear','Headphones']])}<div class="set"><span>Headphone name</span><input type="text" id="outn" maxlength="22" placeholder="Optional" value="${esc(S.outName||'')}"></div>${btnr('Read headphone name',[['outperm','Allow']])}</div>
+<div class="grp"><div class="gt">${gi('play','#fa2d48')}Player</div>${segr('Player style','pstyle',[['compact','Compact'],['full','Full screen']])}${tgr('Artwork glow','bgart')}${tgr('Use my custom font','pfont','Off uses the Apple-style system font everywhere')}${tgr('Blur unfocused lyrics','lblur')}${segr('Lyrics size','lz',[[.9,'Small'],[1,'Default'],[1.2,'Large']])}${tgr('Audio format badge','fmtb','Shows Lossless, MP3, etc. under the seek bar')}${tgr('Show volume slider','volr')}${segr('Player background','pbg',[['mesh','Color mesh'],['art','Artwork blur']])}${segr('Audio output icon','outm',[['auto','Auto'],['spk','Speaker'],['ear','Headphones']])}<div class="set"><span>Headphone name</span><input type="text" id="outn" maxlength="22" placeholder="Optional" value="${esc(S.outName||'')}"></div>${btnr('Find my headphones',[['outperm','Search']],'Asks for permission to read device names or look for nearby devices')}</div>
 <div class="grp"><div class="gt">${gi('vhi','#30d158')}Playback</div>${segr('Speed','speed',[[.75,'0.75×'],[1,'1×'],[1.25,'1.25×'],[1.5,'1.5×']])}${tgr('Preserve pitch','pp')}
 <div class="set"><span>Crossfade <small id="xfl">${S.xf?S.xf+' s':'Off'}</small></span><input type="range" id="xf" min="0" max="12" step="1" value="${S.xf}"></div>${tgr('Fade on pause and resume','pfade')}${tgr('Autoplay next song','auto')}${tgr('Resume where I left off','resume')}${tgr('Keep screen awake','wake')}
 <div class="set"><span>Sleep timer</span><button class="pill" data-a="sleep">${sleepT?'On':'Set'}</button></div></div>
 <div class="grp"><div class="gt">${gi('home','#0a84ff')}Home</div>${homeRows()}${tgr('Album art on mix cards','mixart','Off shows colored cards with a glyph')}</div>
 <div class="grp"><div class="gt">${gi('lib','#bf5af2')}Library</div><div class="set"><span>${songs.length} songs</span><button class="pill" data-a="add">Add music</button></div>${segr('Sort songs by','sort',[['title','Title'],['artist','Artist'],['recent','Recent']])}
-${btnr('Back up stats and settings',[['exp','Save'],['imp','Restore']])}${btnr('Rebuild artwork thumbnails',[['rth','Rebuild']],'Fixes missing or blurry covers in lists')}<div class="set"><span>Storage used <small class="sub" id="stor">…</small></span></div>${btnr('Clear history and stats',[['hclr','Clear']])}${btnr('Remove all songs',[['wipe','Clear']])}</div>
-<div class="grp"><div class="gt">${gi('set','#8e8e93')}App</div>${tgr('Full screen (hide browser bar)','fs')}${tgr('Back gesture stays inside Melo','bk')}${tgr('Pull down to refresh','ptr')}${segr('Haptic feedback','hapl',[[0,'Off'],[1,'Light'],[2,'Standard'],[3,'Strong']])}${btnr('Refresh app',[['rfs','Refresh']],'Reloads your library and settings without leaving')}${btnr('Restart app',[['rst','Restart']])}${btnr('Reset all settings',[['rall','Reset']])}<div class="set"><span>About Melo<small class="sub">Version ${VER} (pre-release)</small></span><button class="pill" data-a="about">Info</button></div><div class="set"><span>Copy diagnostics<small class="sub">Paste this when you report a bug</small></span><button class="pill" data-a="diag">Copy</button></div></div>`;
+${btnr('Back up stats and settings',[['exp','Save'],['expsh','Share'],['imp','Restore']],'Includes favorites, playlists, history, your profile and artist photos')}${btnr('Rebuild artwork thumbnails',[['rth','Rebuild']],'Fixes missing or blurry covers in lists')}<div class="set"><span>Storage used <small class="sub" id="stor">…</small></span></div>${btnr('Clear history and stats',[['hclr','Clear']])}${btnr('Remove all songs',[['wipe','Clear']])}</div>
+<div class="grp"><div class="gt">${gi('set','#8e8e93')}App</div>${segr('Display mode','dmode',[['full','Fullscreen'],['std','Standard']])}${tgr('Back gesture stays inside Melo','bk')}${tgr('Pull down to refresh','ptr')}${segr('Haptic feedback','hapl',[[0,'Off'],[1,'Light'],[2,'Standard'],[3,'Strong']])}${btnr('Welcome tour',[['wl','Show']],'See the welcome screens again')}${btnr('Refresh app',[['rfs','Refresh']],'Reloads your library and settings without leaving')}${btnr('Restart app',[['rst','Restart']])}${btnr('Reset all settings',[['rall','Reset']])}<div class="set"><span>About Melo<small class="sub">Version ${VER} (pre-release)</small></span><button class="pill" data-a="about">Info</button></div><div class="set"><span>Copy diagnostics<small class="sub">Paste this when you report a bug</small></span><button class="pill" data-a="diag">Copy</button></div></div>`;
 function filterSet(q){q=(q||'').toLowerCase();document.querySelectorAll('#main .grp').forEach(g=>{let any=false;g.querySelectorAll('.set').forEach(r=>{const m=!q||r.textContent.toLowerCase().includes(q);r.style.display=m?'':'none';if(m)any=true});const t=g.querySelector('.gt');if(t)t.style.display=any?'':'none';g.style.display=any?'':'none'})}
 function afterRender(){const s=$('#lzs');lzObs.disconnect();if(s&&LZ)lzObs.observe(s);
 if(tab=='settings'){const q=$('#sq');if(q&&sqv){q.value=sqv;filterSet(sqv)}const st=$('#stor');if(st&&navigator.storage&&navigator.storage.estimate)navigator.storage.estimate().then(e=>{st.textContent=`${(e.usage/1048576).toFixed(0)} MB of ${(e.quota/1073741824).toFixed(1)} GB`}).catch(()=>{})}}
@@ -1129,7 +1216,7 @@ let lastPos=0;A.addEventListener('timeupdate',()=>{const n=Date.now();if(n-lastP
 try{MS.setActionHandler('seekto',d=>{if(d.seekTime!=null)A.currentTime=d.seekTime});MS.setActionHandler('seekbackward',d=>{A.currentTime=Math.max(0,A.currentTime-(d.seekOffset||10))});MS.setActionHandler('seekforward',d=>{A.currentTime=Math.min(A.duration||1e9,A.currentTime+(d.seekOffset||10))});MS.setActionHandler('stop',()=>{userPaused=true;A.pause()})}catch(e){}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){A.volume=UV;fading=false;if(xfIn)clearInterval(xfIn)}else{if(userPaused)return;if(A.ended&&S.auto!==false){next(true)}else if(pendingPlay&&A.paused){A.play().catch(()=>{})}}});
 /* ===== v16 (pre-release 0.9): fullscreen fix, haptics, home order, stats drill-down, polish ===== */
-const VER='0.9.1-beta.11',ERR=[];
+const VER='0.9.1-beta.12',ERR=[];
 addEventListener('error',e=>{ERR.push((e.message||'error')+' @'+((e.filename||'').split('/').pop())+':'+e.lineno);if(ERR.length>20)ERR.shift()});
 addEventListener('unhandledrejection',e=>{ERR.push('promise: '+((e.reason&&e.reason.message)||e.reason));if(ERR.length>20)ERR.shift()});
 Object.assign(IC,{fs:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/>',fsx:'<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/>'});
@@ -1192,7 +1279,7 @@ let rzT=0;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{c
 const AL={pp:'Play or pause',nx:'Next song',pv:'Previous song',lyr:'Lyrics',queue:'Queue',outp:'Audio output',qual:'Audio quality',back:'Back',dedit:'Edit',profile:'Profile',rview:'Change view',fs:'Full screen',shufall:'Shuffle',playall:'Play',close:'Close player'};
 function a11y(){document.querySelectorAll('[data-a]:not([aria-label]),[data-m]:not([aria-label]),[data-fav]:not([aria-label])').forEach(b=>{const k=b.dataset.a;if(AL[k])b.setAttribute('aria-label',AL[k]);else if(b.dataset.m)b.setAttribute('aria-label','More options');else if(b.dataset.fav)b.setAttribute('aria-label','Favorite')})}
 function diag(){const o={melo:VER,time:new Date().toISOString(),ua:navigator.userAgent,screen:innerWidth+'x'+innerHeight+'@'+devicePixelRatio,storage:db?'IndexedDB ok':'unavailable',songs:songs.length,history:LOG.length,fullscreen:!!document.fullscreenElement,secure:isSecureContext,settings:S,errors:ERR};return JSON.stringify(o,null,2)}
-const CHANGES=['#Improvements','Player redesign: a living color mesh built from the artwork, larger artwork, bigger controls and thicker sliders','The output button shows earbuds with the device name when headphones are connected, and a speaker for the phone','A premium progressive blur under the status bar and album headers, with a real minimum blur strength','System bars stay visible and take the color of the screen, instead of hiding or flashing','Heart and play buttons have a subtle pop, and the installed app is steadier at the edges','#Bug fixes','Fixed the flat fade that replaced the blur at the top of the screen','Fixed the status bar flicker caused by immersive mode and constant color changes'];
+const CHANGES=['#Improvements','Welcome screens: add your name and photo, then choose Fullscreen or Standard display mode (both can be skipped)','Dynamic color theme: the whole app takes the color of the song that is playing and glides between songs','Premium earbuds and speaker icons, and an audio menu that matches the glass in light and dark','Find my headphones: reads the connected device name, or searches nearby devices with permission','Apple-style stretch and bounce at the ends of every page, list and carousel, using the speed you scroll with','Skipping a song now has a short smooth fade, and songs still crossfade when they end on their own','#Bug fixes','Fixed the blur at the top of the screen disappearing','Fixed backup and restore, which could silently fail on phones','Fixed the empty bar above the keyboard in search by letting the browser report the keyboard','Fixed full screen not being remembered at launch and added a hint while it waits for your first tap'];
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;
 if(k=='about'){e.stopPropagation();mcard(`${svg('songs',72).replace('<svg ','<svg class="qi" ')}<h3>Melo ${VER}</h3><p>Pre-release. Your music stays on this device.</p><button class="pb" data-act="new">What's new</button><button class="pb w" data-act="ok">OK</button>`,{new:()=>mcard(`<h3>What's in this build</h3>${CHANGES.map(x=>x[0]=='#'?`<div class=\"ir\" style=\"font-weight:700;margin-top:10px\"><span>${x.slice(1)}</span></div>`:`<div class=\"ir\"><span>${x}</span></div>`).join('')}<button class="pb w" data-act="ok" style="margin-top:14px">OK</button>`)})}
 else if(k=='diag'){e.stopPropagation();copyText(diag())}},true);
@@ -1596,7 +1683,7 @@ if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostnam
 /* ===== v28 (0.9.1-beta.10): edge-to-edge, immersive installed app ===== */
 var PWAFS=matchMedia('(display-mode: fullscreen)').matches;if(PWAFS)document.documentElement.classList.add('pwafs');
 /* installed but not yet fullscreen (standalone window): go immersive on the first touch, and again after returning to the app */
-const immWant=()=>PWA&&!PWAFS&&S.immOn===true;
+const immWant=()=>!PWAFS&&S.immOn===true;
 if(immWant())S.fs=true;
 {let last=0;const again=()=>{if(!immWant()||document.fullscreenElement||document.hidden)return;const n=Date.now();if(n-last<1200)return;last=n;try{document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{})}catch(e){}};
 document.addEventListener('pointerup',again,true);document.addEventListener('touchend',again,true)}
@@ -1649,12 +1736,124 @@ const ch=OUTK.kind!==k||OUTK.name!==n;OUTK={kind:k,name:n};if(ch)refreshOut()}
 if(navigator.mediaDevices&&navigator.mediaDevices.addEventListener)navigator.mediaDevices.addEventListener('devicechange',()=>setTimeout(detectOut,400));
 A.addEventListener('play',()=>setTimeout(detectOut,900));document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(detectOut,500)});
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a=outperm]');if(a){e.stopPropagation();e.preventDefault();
-navigator.mediaDevices.getUserMedia({audio:true}).then(st=>{st.getTracks().forEach(t=>t.stop());S.outPerm=1;saveS();toast('Headphone names are on');detectOut()}).catch(()=>toast('Permission was not granted'))}
+findHeadphones()}
 if(e.target.closest('[data-st=outm]'))setTimeout(detectOut,60)},true);
 document.addEventListener('input',e=>{if(e.target.id==='outn'){S.outName=e.target.value.trim().slice(0,22);saveS();detectOut()}});
 setTimeout(detectOut,1200);
 /* ---- small moments of delight ---- */
 document.addEventListener('click',e=>{const f=e.target.closest('[data-fav]');if(!f)return;const id=f.dataset.fav;requestAnimationFrame(()=>document.querySelectorAll('[data-fav="'+id+'"]').forEach(x=>x.animate&&S.motion&&x.animate([{transform:'scale(1)'},{transform:'scale(1.3)'},{transform:'scale(1)'}],{duration:420,easing:'cubic-bezier(.34,1.56,.64,1)'})))},true);
+/* ===== v30 (0.9.1-beta.12): onboarding, dynamic color, backups, steadier blur, bounce, headphones ===== */
+Object.assign(IC,{ouear:'<g transform="scale(1.5)"><path fill-rule="evenodd" d="M6.825 4.138c.596 2.141-.36 3.593-2.389 4.117a4.4 4.4 0 0 1-2.018.054c-.048-.01.9 2.778 1.522 4.61l.41 1.205a.52.52 0 0 1-.346.659l-.593.19a.55.55 0 0 1-.69-.34L.184 6.99c-.696-2.137.662-4.309 2.564-4.8 2.029-.523 3.402 0 4.076 1.948zm-.868 2.221c.43-.112.561-.993.292-1.969-.269-.975-.836-1.675-1.266-1.563s-.561.994-.292 1.969.836 1.675 1.266 1.563m3.218-2.221c-.596 2.141.36 3.593 2.389 4.117a4.4 4.4 0 0 0 2.018.054c.048-.01-.9 2.778-1.522 4.61l-.41 1.205a.52.52 0 0 0 .346.659l.593.19c.289.092.6-.06.69-.34l2.536-7.643c.696-2.137-.662-4.309-2.564-4.8-2.029-.523-3.402 0-4.076 1.948m.868 2.221c-.43-.112-.561-.993-.292-1.969.269-.975.836-1.675 1.266-1.563s.561.994.292 1.969-.836 1.675-1.266 1.563"></path></g>',ouspk:'<g transform="scale(0.09375)"><path d="M160,32.25V223.69a8.29,8.29,0,0,1-3.91,7.18,8,8,0,0,1-9-.56l-65.57-51A4,4,0,0,1,80,176.16V79.84a4,4,0,0,1,1.55-3.15l65.57-51a8,8,0,0,1,10,.16A8.27,8.27,0,0,1,160,32.25ZM60,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H60a4,4,0,0,0,4-4V84A4,4,0,0,0,60,80Zm126.77,20.84a8,8,0,0,0-.72,11.3,24,24,0,0,1,0,31.72,8,8,0,1,0,12,10.58,40,40,0,0,0,0-52.88A8,8,0,0,0,186.74,100.84Zm40.89-26.17a8,8,0,1,0-11.92,10.66,64,64,0,0,1,0,85.34,8,8,0,1,0,11.92,10.66,80,80,0,0,0,0-106.66Z"></path></g>'});
+S.dmode=S.dmode||(S.immOn?'full':'std');
+/* ---------- soft keyboard: let the browser report it, so nothing can go stale ---------- */
+if(navigator.virtualKeyboard){try{navigator.virtualKeyboard.overlaysContent=true;document.documentElement.classList.add('vk')}catch(e){}}
+/* ---------- bounce: stretch and spring at the ends of every scroller ---------- */
+function bounce(el){
+const main=el.id=='main',isDet=el.id=='det';
+const tg=()=>main?[el.firstElementChild]:isDet?[document.querySelector('#det .dw')]:Array.from(el.children);
+let ly=0,lp=0,lt=0,vp=0,pull=0,dir=0,active=false,raf=0,cool=0,canRef=false,heroStart=false,x0=0,dxm=0,ax=0,tx0=0,ty0=0;const hist=[];
+const H=()=>Math.min(el.clientHeight||700,800),rub=x=>Math.min(120,(1-1/((x*.8/H())+1))*H());
+const set=p=>{const tr=p?`translate3d(0,${p.toFixed(2)}px,0) scale(1,${(1+Math.abs(p)/1300).toFixed(4)})`:'',org=p>0?'50% 0':'50% 100%';tg().forEach(t=>{if(!t)return;t.style.transformOrigin=org;t.style.transform=tr});if(main&&ptrOn){PT.style.opacity=Math.min(1,Math.max(0,(p-14)/46));PT.style.transform=`translateY(${Math.max(0,p*.55-6)}px) rotate(${p*4}deg)`}};
+const wc=v=>tg().forEach(t=>{if(t)t.style.willChange=v});
+const spring=(p,v)=>{cancelAnimationFrame(raf);wc('transform');let last=performance.now();const k=210,c=2*Math.sqrt(k)*.88;const step=t=>{const dt=Math.min(.032,(t-last)/1000||.016);last=t;v+=(-k*p-c*v)*dt;p+=v*dt;if(Math.abs(p)<.2&&Math.abs(v)<.6){set(0);wc('');if(main&&!PT.classList.contains('spin')){PT.style.opacity=0;ptrOn=false}return}set(p);raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)};
+el.addEventListener('touchstart',e=>{cancelAnimationFrame(raf);ly=e.touches[0].clientY;ax=0;tx0=e.touches[0].clientX;ty0=ly;lp=0;vp=0;lt=performance.now();pull=0;dir=0;active=true;heroStart=!!e.target.closest('.hz,.hs,.chips2');x0=tx0;dxm=0;canRef=main&&!!S.ptr&&tab!='search'&&tab!='settings'&&!document.documentElement.classList.contains('kb')&&!e.target.closest('input,#bot');ptrOn=false;wc('transform');PT.style.transition='none'},{passive:true});
+el.addEventListener('touchmove',e=>{if(!active||(S.bounce===false&&!canRef)||(el.scrollHeight<=el.clientHeight+2&&!(main&&canRef)))return;const y=e.touches[0].clientY,dy=y-ly,n=performance.now();ly=y;dxm=Math.max(dxm,Math.abs(e.touches[0].clientX-x0));if(ax===0){const ddx=Math.abs(e.touches[0].clientX-tx0),ddy=Math.abs(y-ty0);if(ddx+ddy>10)ax=ddx>ddy*.6?1:2;else return}if(ax===1)return;
+if(dir===0){const top=el.scrollTop<=0,bot=el.scrollTop+el.clientHeight>=el.scrollHeight-1;if(top&&dy>0)dir=1;else if(bot&&dy<0&&S.bounce!==false&&el.scrollHeight-el.clientHeight>120)dir=-1;else return;ptrOn=canRef&&dir==1}
+pull+=dir*dy;if(pull<=0){pull=0;dir=0;ptrOn=false;set(0);PT.style.opacity=0;return}const p=dir*rub(pull);vp=(p-lp)/Math.max(1,n-lt)*1000;lp=p;lt=n;set(p)},{passive:true});
+const end=()=>{if(!active)return;active=false;PT.style.transition='';if(!pull||!dir){ptrOn=false;return}const p=lp;pull=0;const d=dir;dir=0;if(main&&ptrOn&&d==1&&p>=(heroStart?104:72)&&!(heroStart&&dxm>18)){hap('tap');ptrOn=false;softReload()}spring(p,Math.max(-2200,Math.min(2200,vp*.3)))};
+el.addEventListener('touchend',end);el.addEventListener('touchcancel',end);
+/* momentum into the edge: bounce with the speed you arrived with */
+if(el.id!=='qp')el.addEventListener('scroll',()=>{const n=performance.now(),y=el.scrollTop;hist.push([n,y]);while(hist.length>1&&n-hist[0][0]>130)hist.shift();if(active||S.bounce===false||n<cool)return;const max=el.scrollHeight-el.clientHeight;if(max<120)return;const top=y<=0,bot=y>=max-1;if(!top&&!bot)return;const o=hist[0],dt=n-o[0];if(dt<24)return;const v=(y-o[1])/dt;if((top&&v<-.28)||(bot&&v>.28)){cool=n+650;spring(0,(top?1:-1)*Math.min(2600,Math.abs(v)*1000*.42))}},{passive:true})}
+/* horizontal rails (mixes, albums, chips) stretch at their ends too */
+function rail(c){if(c._rb)return;c._rb=1;let lx=0,tx0=0,ty0=0,pull=0,dir=0,ax=0,act=false,raf=0,lp=0,vp=0,lt=0,cool=0;const hist=[];
+const W=()=>Math.min(c.clientWidth||360,600),rub=x=>Math.min(90,(1-1/((x*.75/W())+1))*W());
+const set=p=>c.style.setProperty('--rx',p.toFixed(2)+'px');
+const spring=(p,v)=>{cancelAnimationFrame(raf);c.classList.add('rb');let last=performance.now();const k=210,cc=2*Math.sqrt(k)*.88;const step=t=>{const dt=Math.min(.032,(t-last)/1000||.016);last=t;v+=(-k*p-cc*v)*dt;p+=v*dt;if(Math.abs(p)<.2&&Math.abs(v)<.6){set(0);c.style.removeProperty('--rx');c.classList.remove('rb');return}set(p);raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)};
+c.addEventListener('touchstart',e=>{cancelAnimationFrame(raf);lx=tx0=e.touches[0].clientX;ty0=e.touches[0].clientY;pull=0;dir=0;ax=0;act=true;lp=0;vp=0;lt=performance.now();c.classList.add('rb')},{passive:true});
+c.addEventListener('touchmove',e=>{if(!act||S.bounce===false)return;const x=e.touches[0].clientX,y=e.touches[0].clientY,dx=x-lx,n=performance.now();lx=x;if(ax===0){const a=Math.abs(x-tx0),b=Math.abs(y-ty0);if(a+b>8)ax=a>b*.9?1:2;else return}if(ax!==1)return;const m=c.scrollWidth-c.clientWidth;if(m<4)return;
+if(dir===0){if(c.scrollLeft<=0&&dx>0)dir=1;else if(c.scrollLeft>=m-1&&dx<0)dir=-1;else return}
+pull+=dir*dx;if(pull<=0){pull=0;dir=0;set(0);return}const p=dir*rub(pull);vp=(p-lp)/Math.max(1,n-lt)*1000;lp=p;lt=n;set(p)},{passive:true});
+const end=()=>{if(!act)return;act=false;if(!pull||!dir){c.classList.remove('rb');return}const p=lp;pull=0;dir=0;spring(p,Math.max(-2000,Math.min(2000,vp*.3)))};
+c.addEventListener('touchend',end);c.addEventListener('touchcancel',end);
+c.addEventListener('scroll',()=>{const n=performance.now(),x=c.scrollLeft;hist.push([n,x]);while(hist.length>1&&n-hist[0][0]>130)hist.shift();if(act||S.bounce===false||n<cool)return;const m=c.scrollWidth-c.clientWidth;if(m<4)return;const lf=x<=0,rt=x>=m-1;if(!lf&&!rt)return;const o=hist[0],dt=n-o[0];if(dt<24)return;const v=(x-o[1])/dt;if((lf&&v<-.28)||(rt&&v>.28)){cool=n+650;spring(0,(lf?1:-1)*Math.min(2200,Math.abs(v)*1000*.4))}},{passive:true})}
+{let tm=0;const go=()=>document.querySelectorAll('#main .hz,#main .hs,#main .chips2').forEach(rail);new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(go,60)}).observe($('#main'),{childList:true,subtree:true});setTimeout(go,300)}
+/* ---------- backup and restore that work on phones ---------- */
+function backupData(){const d={app:'melo',v:2,at:Date.now(),S,fav:[...FAV],pls,LOG,K:{}};Object.keys(K).forEach(k=>{if(k==='pimg'||k.startsWith('a:'))d.K[k]=K[k]});return d}
+function exportData(){try{const blob=new Blob([JSON.stringify(backupData())],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='melo-backup-'+new Date().toISOString().slice(0,10)+'.json';a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},5000);toast('Backup saved to your Downloads')}catch(e){toast('Could not create the backup')}}
+async function shareBackup(){try{const f=new File([JSON.stringify(backupData())],'melo-backup.json',{type:'application/json'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Melo backup'});return}toast('Sharing is not available here. Use Save instead')}catch(e){if(!e||e.name!=='AbortError')toast('Could not share the backup')}}
+function importData(){const i=document.createElement('input');i.type='file';i.style.cssText='position:fixed;left:-9999px;top:0;opacity:0;width:1px;height:1px';document.body.appendChild(i);window.__imp=i;const done=()=>setTimeout(()=>{i.remove();window.__imp=null},800);
+i.addEventListener('cancel',done);
+i.onchange=async()=>{try{const f=i.files&&i.files[0];if(!f)return done();const d=JSON.parse(await f.text());if(!d||typeof d!=='object'||!(d.S||d.fav||d.pls||d.LOG))throw 0;
+if(d.S&&typeof d.S==='object'){const keep={onbDone:true,immOn:S.immOn,dmode:S.dmode,fsInit:S.fsInit};Object.assign(S,d.S,keep)}
+if(Array.isArray(d.fav))FAV=new Set(d.fav);if(Array.isArray(d.pls))pls=d.pls;if(d.LOG&&typeof d.LOG==='object')LOG=d.LOG;
+if(d.K&&typeof d.K==='object')Object.entries(d.K).forEach(([k,v])=>kset(k,v));
+saveS();savePls();saveLog();try{localStorage.setItem('melo_fav',JSON.stringify([...FAV]))}catch(e){}applyS();render(true);toast(`Backup restored: ${FAV.size} favorites, ${pls.length} playlists`)}catch(e){toast('That file is not a Melo backup')}done()};
+i.click()}
+function pick(cb,max=640){const i=document.createElement('input');i.type='file';i.accept='image/*';i.style.cssText='position:fixed;left:-9999px;top:0;opacity:0;width:1px;height:1px';document.body.appendChild(i);window.__pk=i;const done=()=>setTimeout(()=>{i.remove();window.__pk=null},800);i.addEventListener('cancel',done);
+i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return done();const u=await fit(f,max);u?cb(u):toast('Could not read that image');done()};i.click()}
+/* ---------- mesh colours (shared by the player and the dynamic theme) ---------- */
+async function meshOf(s){if(!s)return null;let c=MESH[s.id];if(c)return c;const u=cv(s);if(u)c=await new Promise(r=>{const i=new Image();i.onload=()=>{try{r(meshFrom(i))}catch(e){r(null)}};i.onerror=()=>r(null);i.src=u});if(!c){const b=tint(s);c=[b,b,b,b]}MESH[s.id]=c;return c}
+async function plMesh(s){const F=$('#full');if(!F||S.pbg==='art'||!s)return;const c=await meshOf(s);if(fullFor!==s.id)return;c.forEach((x,i)=>F.style.setProperty('--m'+(i+1),x));window.__plTop=c[0];syncTheme()}
+/* theme colour for the system bars, always as plain rgb */
+let _cx;function cssRgb(c){try{_cx=_cx||document.createElement('canvas').getContext('2d',{willReadFrequently:true});_cx.canvas.width=_cx.canvas.height=1;_cx.clearRect(0,0,1,1);_cx.fillStyle='#000';_cx.fillStyle=c;_cx.fillRect(0,0,1,1);const d=_cx.getImageData(0,0,1,1).data;return `rgb(${d[0]},${d[1]},${d[2]})`}catch(e){return c}}
+function themeColor(){const F=$('#full');if(F&&F.classList.contains('open')&&S.pbg!=='art'&&window.__plTop)return cssRgb(window.__plTop);const c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();return cssRgb(c||'#000')}
+/* ---------- dynamic color theme: the whole app follows the song ---------- */
+function dynActive(){return !!S.dyc&&qi>=0&&!!byId(queue[qi])}
+let dynSeq=0;
+async function dynApply(){const r=document.documentElement,seq=++dynSeq,on=dynActive();window.__dynOn=on;
+if(!on){r.classList.remove('dyn');navAdapt();setTimeout(syncTheme,80);setTimeout(syncTheme,600);return}
+const c=await meshOf(byId(queue[qi]));if(seq!==dynSeq||!c)return;
+r.style.setProperty('--dyn',`color-mix(in oklab,${c[0]} 55%,${c[2]})`);r.classList.add('dyn');navAdapt();setTimeout(syncTheme,80);setTimeout(syncTheme,1400)}
+A.addEventListener('loadstart',()=>setTimeout(dynApply,30));setTimeout(dynApply,1600);
+/* ---------- display mode: fullscreen or standard, remembered ---------- */
+function applyDmode(m){S.dmode=m;if(m==='full'){S.immOn=true;saveS();try{document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{})}catch(e){}}else{S.immOn=false;saveS();if(document.fullscreenElement){window.__uex=1;document.exitFullscreen().catch(()=>{})}}}
+{const mk=()=>{if(!immWant()||document.fullscreenElement||document.getElementById('fsh'))return;const d=document.createElement('div');d.id='fsh';d.textContent='Tap anywhere to go full screen';document.body.appendChild(d);requestAnimationFrame(()=>d.classList.add('in'));const rm=()=>{d.classList.remove('in');setTimeout(()=>d.remove(),420)};setTimeout(rm,4200);document.addEventListener('fullscreenchange',rm,{once:true});document.addEventListener('pointerup',()=>setTimeout(rm,300),{once:true,capture:true})};
+setTimeout(mk,700);document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(mk,500)})}
+/* ---------- finding your headphones ---------- */
+async function detectOut(){const mode=S.outm||'auto';let k='speaker',n='';
+if(mode==='ear')k='ear';
+else if(mode==='auto'){try{const md=navigator.mediaDevices;if(md&&md.enumerateDevices){const ds=await md.enumerateDevices(),dv=(S.outDev||'').toLowerCase();const hit=ds.find(d=>(d.kind==='audiooutput'||d.kind==='audioinput')&&d.label&&((dv&&d.label.toLowerCase().includes(dv))||EARRE.test(d.label)));if(hit){k='ear';n=cleanDev(hit.label)}}}catch(e){}
+if(k==='speaker'&&!A.paused&&(await latencyHint())>.11)k='ear'}
+if(k==='ear'&&S.outName)n=S.outName;
+const ch=OUTK.kind!==k||OUTK.name!==n;OUTK={kind:k,name:n};if(ch)refreshOut()}
+const BADL=/speakerphone|earpiece|built-?in|^default|communications|microphone array|phone/i;
+async function findHeadphones(){
+try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(t=>t.stop());S.outPerm=1;saveS()}catch(e){toast('Allow the microphone permission so Melo can read device names')}
+let list=[];try{const ds=await navigator.mediaDevices.enumerateDevices();list=[...new Set(ds.filter(d=>(d.kind==='audioinput'||d.kind==='audiooutput')&&d.label&&!BADL.test(d.label)).map(d=>d.label))]}catch(e){}
+const acts={};list.slice(0,6).forEach((l,i)=>acts['hp'+i]=()=>{S.outDev=l;S.outName=cleanDev(l)||l;S.outm='auto';saveS();detectOut();render(true);toast('Using '+(S.outName))});acts.hpbt=()=>nearbyBt();
+mcard(`<h3>Your headphones</h3><p>${list.length?'Pick the device you listen with. Melo shows its name and the earbuds icon when it is connected.':'No connected headphones were found. Connect them first, or search nearby devices.'}</p>${list.slice(0,6).map((l,i)=>`<button class="pb" data-act="hp${i}">${svg('ouear',18)} ${esc(cleanDev(l)||l)}</button>`).join('')}<button class="pb" data-act="hpbt">Search nearby Bluetooth devices</button><button class="pb w" data-act="ok">Cancel</button>`,acts)}
+async function nearbyBt(){if(!navigator.bluetooth){toast('This browser cannot search for nearby devices');return}
+try{const d=await navigator.bluetooth.requestDevice({acceptAllDevices:true});if(d&&d.name){S.outName=d.name.slice(0,22);S.outDev=d.name;S.outm='auto';saveS();detectOut();render(true);toast('Using '+d.name)}}catch(e){if(!e||e.name!=='NotFoundError')toast('Could not access nearby devices')}}
+/* ---------- welcome screens ---------- */
+let wlImg=null,wlMode='full';
+const phone=full=>`<div class="wl-ph ${full?'f':'s'}">${full?'':'<div class="ph-sb"><i>7:04</i><b></b></div>'}<div class="ph-c"><i class="h"></i><i class="l"></i><div class="ph-r"><u></u><s></s></div><div class="ph-r"><u></u><s></s></div><div class="ph-r"><u></u><s></s></div><div class="ph-g"><u></u><u></u><u></u></div></div>${full?'':'<div class="ph-nb"><i></i><i></i><i></i></div>'}</div>`;
+function showWelcome(){if(document.getElementById('wl'))return;wlImg=null;wlMode=S.immOn===false?'std':'full';const E=document.createElement('div');E.id='wl';
+E.innerHTML=`<div class="wl-bg"><i></i><i></i><i></i></div>
+<section class="wl-s on" data-s="1"><button class="wl-skip" data-wl="skip1">Skip</button><div class="wl-top"><h1>Melo</h1><p>Your music, your phone.</p></div>
+<button class="wl-av" data-wl="photo" aria-label="Add a photo"><span id="wlph">${K.pimg?`<b style="background-image:url(${K.pimg})"></b>`:svg('profile',52)}</span><i>${svg('img',15)}</i></button>
+<label class="wl-in">${svg('profile',26)}<input id="wln" type="text" maxlength="30" placeholder="Enter your name" autocomplete="off" enterkeyhint="next" value="${esc(S.name||'')}"></label>
+<p class="wl-dis">Disclaimer: We respect your privacy more than anything else. All of your data is stored locally on your device only.</p>
+<button class="wl-cta" data-wl="next">Get Started</button></section>
+<section class="wl-s" data-s="2"><button class="wl-skip" data-wl="skip2">Skip</button><div class="wl-top two"><h2>App display mode</h2><p>Select the display mode for the app</p></div>
+<div class="wl-modes"><button class="wl-m ${wlMode=='full'?'on':''}" data-wl="mode" data-m="full">${phone(true)}<i class="ck">${svg('check',22)}</i><b>Fullscreen</b></button><button class="wl-m ${wlMode=='std'?'on':''}" data-wl="mode" data-m="std">${phone(false)}<i class="ck">${svg('check',22)}</i><b>Standard</b></button></div>
+<p class="wl-dis c">Fullscreen hides the system bars for a more immersive app. You can change this any time in Settings.</p>
+<button class="wl-cta" data-wl="finish">Finish</button></section>`;
+document.body.appendChild(E);requestAnimationFrame(()=>E.classList.add('in'))}
+function wlGo(n){const E=document.getElementById('wl');if(!E)return;E.querySelectorAll('.wl-s').forEach(s=>{const on=s.dataset.s==n;s.classList.toggle('on',on);s.classList.toggle('out',!on&&+s.dataset.s<n)});const a=document.activeElement;if(a&&a.blur)a.blur()}
+function wlClose(){const E=document.getElementById('wl');if(!E)return;S.onbDone=true;saveS();E.classList.remove('in');E.classList.add('bye');setTimeout(()=>E.remove(),600);render(true)}
+document.addEventListener('click',e=>{const b=e.target.closest('#wl [data-wl]');if(!b)return;e.stopPropagation();const k=b.dataset.wl;
+if(k==='photo')pick(u=>{wlImg=u;const p=document.getElementById('wlph');if(p)p.innerHTML=`<b style="background-image:url(${u})"></b>`},400);
+else if(k==='next'||k==='skip1'){if(k==='next'){const v=(document.getElementById('wln').value||'').trim();if(v){S.name=v;saveS()}if(wlImg)kset('pimg',wlImg)}wlGo(2)}
+else if(k==='mode'){wlMode=b.dataset.m;document.querySelectorAll('#wl .wl-m').forEach(x=>x.classList.toggle('on',x===b));hap('tick')}
+else if(k==='finish'){applyDmode(wlMode);wlClose()}
+else if(k==='skip2'){applyDmode('std');wlClose()}},true);
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='wln'){e.preventDefault();document.querySelector('#wl [data-wl=next]').click()}});
+setTimeout(()=>{if(S.onbDone)return;if(S.name||songs.length||K.pimg){S.onbDone=true;saveS();return}showWelcome()},900);
+/* ---------- settings hooks ---------- */
+document.addEventListener('click',e=>{const T=e.target;
+if(T.closest('[data-st=dmode]'))setTimeout(()=>applyDmode(S.dmode),30);
+if(T.closest('[data-st=dyc]'))setTimeout(dynApply,60);
+const a=T.closest('[data-a]');if(!a)return;const k=a.dataset.a;if(k==='wl'){e.stopPropagation();showWelcome()}else if(k==='expsh'){e.stopPropagation();shareBackup()}},true);
 $('#file').onchange=async e=>{const f=[...e.target.files];e.target.value='';if(f.length){toast('Adding '+f.length+' file'+(f.length>1?'s':'')+'…');await imp(f)}};
 document.addEventListener('input',e=>{const i=e.target;if(i.id=='bl'){S.blur=+i.value;applyS();saveS()}else if(i.id=='cc'){S.acc=i.value;applyS();saveS()}else if(i.id=='q'){qs=i.value;$('#sres').innerHTML=resHTML()}else if(i.id=='dim'){S.dim=+i.value;applyS();saveS()}else if(i.id=='bgb'){S.bgb=+i.value;applyS();saveS()}else if(i.id=='xf'){S.xf=+i.value;saveS();const l=$('#xfl');if(l)l.textContent=S.xf?S.xf+' s':'Off'}});
 let tx=0;
