@@ -257,8 +257,6 @@ html.kb #bot{bottom:var(--kbh,0px)!important}
 html.kb #main,html.kb #det{bottom:var(--kbh,0px)}
 /* ===== v24 ===== */
 #bot::before{display:none!important}
-.dfade{visibility:hidden}#det.hdrf .dfade{visibility:visible}
-#nav{visibility:hidden}#nav.nvf{visibility:visible}
 /* ---- glass material: frosted, tinted, adaptive to light / dark / AMOLED ---- */
 :root{--gmb:max(22px,calc(var(--bl,24px)*1.5));--gm1:rgba(255,255,255,.6);--gm2:rgba(255,255,255,.32);--gmbd:rgba(255,255,255,.8);--gmhi:rgba(255,255,255,.75);--gmsh:0 12px 36px rgba(30,30,60,.16)}
 html.dk{--gm1:rgba(84,84,92,.5);--gm2:rgba(46,46,52,.34);--gmbd:rgba(255,255,255,.24);--gmhi:rgba(255,255,255,.28);--gmsh:0 14px 40px rgba(0,0,0,.5)}
@@ -335,7 +333,7 @@ input:focus-visible{outline:none}
 #main .hz,#main .hs,#main .chips2{cursor:grab}#main .hz.grabbing,#main .hs.grabbing{cursor:grabbing}
 }
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-html.pwa [data-a=fs]{display:none!important}html.pwa .set:has([data-st=fs]){display:none!important}
+html.pwafs [data-a=fs]{display:none!important}html.pwafs .set:has([data-st=fs]){display:none!important}html,body{background:var(--bg)}
 </style></head><body>
 <div id="bgimg"></div><div id="app"><div id="nav"><i class="pb pb4"></i><i class="pb pb3"></i><i class="pb pb2"></i><i class="pb pb1"></i><span id="ntt"></span></div><div id="main"></div><div id="bot"><div id="mini" hidden></div><nav id="tabs"><i class="lens"></i><div id="tb"></div></nav><button id="sbtn" data-t="search" aria-label="Search"></button></div></div>
 <div id="det"></div><div id="full"></div><div id="sheet"></div>
@@ -1080,7 +1078,7 @@ let lastPos=0;A.addEventListener('timeupdate',()=>{const n=Date.now();if(n-lastP
 try{MS.setActionHandler('seekto',d=>{if(d.seekTime!=null)A.currentTime=d.seekTime});MS.setActionHandler('seekbackward',d=>{A.currentTime=Math.max(0,A.currentTime-(d.seekOffset||10))});MS.setActionHandler('seekforward',d=>{A.currentTime=Math.min(A.duration||1e9,A.currentTime+(d.seekOffset||10))});MS.setActionHandler('stop',()=>{userPaused=true;A.pause()})}catch(e){}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){A.volume=UV;fading=false;if(xfIn)clearInterval(xfIn)}else{if(userPaused)return;if(A.ended&&S.auto!==false){next(true)}else if(pendingPlay&&A.paused){A.play().catch(()=>{})}}});
 /* ===== v16 (pre-release 0.9): fullscreen fix, haptics, home order, stats drill-down, polish ===== */
-const VER='0.9.1-beta.9',ERR=[];
+const VER='0.9.1-beta.10',ERR=[];
 addEventListener('error',e=>{ERR.push((e.message||'error')+' @'+((e.filename||'').split('/').pop())+':'+e.lineno);if(ERR.length>20)ERR.shift()});
 addEventListener('unhandledrejection',e=>{ERR.push('promise: '+((e.reason&&e.reason.message)||e.reason));if(ERR.length>20)ERR.shift()});
 Object.assign(IC,{fs:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/>',fsx:'<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/>'});
@@ -1095,10 +1093,10 @@ document.addEventListener('click',e=>{const T=e.target;if(T.closest('#tb button'
 document.addEventListener('click',e=>{if(e.target.closest('[data-st=hapl]'))setTimeout(()=>hap('tap'),30)});
 /* ---- full screen: works on the first tap, quick toggle from Home ---- */
 function fsTick(){}
-function toggleFs(){if(document.fullscreenElement){document.exitFullscreen().catch(()=>{});return}
+function toggleFs(){if(document.fullscreenElement){window.__uex=1;S.immOff=true;saveS();document.exitFullscreen().catch(()=>{});return}S.immOff=false;
 const el=document.documentElement,req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){toast('Full screen is not available in this browser');return}
 Promise.resolve().then(()=>req.call(el,{navigationUI:'hide'})).catch(()=>req.call(el)).catch(()=>toast('Full screen is not available here'))}
-document.addEventListener('fullscreenchange',()=>{const f=!!document.fullscreenElement;document.documentElement.classList.toggle('fsm',f);S.fs=f;saveS();if(tab=='home'||tab=='settings')render(true)});
+document.addEventListener('fullscreenchange',()=>{const f=!!document.fullscreenElement;document.documentElement.classList.toggle('fsm',f);if(f||!PWA||window.__uex){S.fs=f;saveS()}else if(immWant()){S.fs=true}window.__uex=0;if(tab=='home'||tab=='settings')render(true)});
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a=fs],[data-st=fs]');if(!a)return;e.stopPropagation();toggleFs()},true);
 /* ---- home: reorderable sections ---- */
 const HDEF=['mix','qp','rec','hr','fav','art','alb'],HNAME={qp:'Jump back in',mix:'Made for you',rec:'Recently played',hr:'Heavy rotation',fav:'Favorites',art:'Top artists',alb:'Albums'};
@@ -1143,7 +1141,7 @@ let rzT=0;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{c
 const AL={pp:'Play or pause',nx:'Next song',pv:'Previous song',lyr:'Lyrics',queue:'Queue',outp:'Audio output',qual:'Audio quality',back:'Back',dedit:'Edit',profile:'Profile',rview:'Change view',fs:'Full screen',shufall:'Shuffle',playall:'Play',close:'Close player'};
 function a11y(){document.querySelectorAll('[data-a]:not([aria-label]),[data-m]:not([aria-label]),[data-fav]:not([aria-label])').forEach(b=>{const k=b.dataset.a;if(AL[k])b.setAttribute('aria-label',AL[k]);else if(b.dataset.m)b.setAttribute('aria-label','More options');else if(b.dataset.fav)b.setAttribute('aria-label','Favorite')})}
 function diag(){const o={melo:VER,time:new Date().toISOString(),ua:navigator.userAgent,screen:innerWidth+'x'+innerHeight+'@'+devicePixelRatio,storage:db?'IndexedDB ok':'unavailable',songs:songs.length,history:LOG.length,fullscreen:!!document.fullscreenElement,secure:isSecureContext,settings:S,errors:ERR};return JSON.stringify(o,null,2)}
-const CHANGES=['#Improvements','Install it from Chrome as an app: it opens in its own window with no address bar, and keeps working offline','Desktop: scroll through daily mixes and every carousel by dragging with the mouse, with previous and next buttons on hover','Gestures lock to one direction, so sliding through the daily mixes can never turn into a pull or a refresh','Cleaner cards: no more clipped shadow edges around the daily mixes','Honors the system reduced-motion setting, with smoother resize handling','#Bug fixes','Fixed the weird edges around the daily mix cards','Fixed the jumpy motion and accidental refresh when scrolling through daily mixes','Fixed daily mixes and carousels not scrolling with a mouse on desktop'];
+const CHANGES=['#Improvements','Edge-to-edge, immersive installed app: the page runs under the status and navigation bars with no black or white bars','Install it from Chrome as an app: it opens in its own window with no address bar, and keeps working offline','Desktop: scroll through daily mixes and every carousel by dragging with the mouse, with previous and next buttons on hover','Gestures lock to one direction, so sliding through the daily mixes can never turn into a pull or a refresh','Cleaner cards: no more clipped shadow edges around the daily mixes','Honors the system reduced-motion setting, with smoother resize handling','#Bug fixes','Fixed black and white bars at the top and bottom when launched from the home screen and the status bar fade not showing','Fixed the weird edges around the daily mix cards','Fixed the jumpy motion and accidental refresh when scrolling through daily mixes','Fixed daily mixes and carousels not scrolling with a mouse on desktop'];
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;
 if(k=='about'){e.stopPropagation();mcard(`${svg('songs',72).replace('<svg ','<svg class="qi" ')}<h3>Melo ${VER}</h3><p>Pre-release. Your music stays on this device.</p><button class="pb" data-act="new">What's new</button><button class="pb w" data-act="ok">OK</button>`,{new:()=>mcard(`<h3>What's in this build</h3>${CHANGES.map(x=>x[0]=='#'?`<div class=\"ir\" style=\"font-weight:700;margin-top:10px\"><span>${x.slice(1)}</span></div>`:`<div class=\"ir\"><span>${x}</span></div>`).join('')}<button class="pb w" data-act="ok" style="margin-top:14px">OK</button>`)})}
 else if(k=='diag'){e.stopPropagation();copyText(diag())}},true);
@@ -1545,6 +1543,19 @@ function bbarCalc(){const m=!PWA&&!document.fullscreenElement&&S.bbar==='bottom'
 {const tc=document.querySelector('meta[name=theme-color]'),R=document.documentElement,sync=()=>{const c=getComputedStyle(R).getPropertyValue('--bg').trim()||getComputedStyle(document.body).backgroundColor;if(c&&tc)tc.setAttribute('content',c)};sync();
 new MutationObserver(sync).observe(R,{attributes:true,attributeFilter:['class','data-theme','style']});const mq=matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener)mq.addEventListener('change',()=>setTimeout(sync,60))}
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+/* ===== v28 (0.9.1-beta.10): edge-to-edge, immersive installed app ===== */
+var PWAFS=matchMedia('(display-mode: fullscreen)').matches;if(PWAFS)document.documentElement.classList.add('pwafs');
+/* installed but not yet fullscreen (standalone window): go immersive on the first touch, and again after returning to the app */
+const immWant=()=>PWA&&!PWAFS&&!S.immOff;
+if(immWant())S.fs=true;
+{let last=0;const again=()=>{if(!immWant()||document.fullscreenElement||document.hidden)return;const n=Date.now();if(n-last<1200)return;last=n;try{document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{})}catch(e){}};
+document.addEventListener('pointerup',again,true);document.addEventListener('touchend',again,true)}
+/* the status bar fade follows scrolling reliably (no stale element references) */
+function syncFade(){const m=$('#main'),d=$('#det'),n=$('#nav');if(m&&n)n.style.setProperty('--ns',Math.min(1,m.scrollTop/70).toFixed(3));if(d)d.style.setProperty('--sc',Math.min(1,d.scrollTop/80).toFixed(3))}
+document.addEventListener('scroll',e=>{const t=e.target;if(!t||!t.id)return;if(t.id==='main')$('#nav').style.setProperty('--ns',Math.min(1,t.scrollTop/70).toFixed(3));else if(t.id==='det')t.style.setProperty('--sc',Math.min(1,t.scrollTop/80).toFixed(3))},true);
+['pageshow','resize','orientationchange','fullscreenchange'].forEach(ev=>addEventListener(ev,()=>setTimeout(syncFade,60)));
+document.addEventListener('visibilitychange',()=>setTimeout(syncFade,80));
+new MutationObserver(()=>syncFade()).observe($('#main'),{childList:true});
 $('#file').onchange=async e=>{const f=[...e.target.files];e.target.value='';if(f.length){toast('Adding '+f.length+' file'+(f.length>1?'s':'')+'…');await imp(f)}};
 document.addEventListener('input',e=>{const i=e.target;if(i.id=='bl'){S.blur=+i.value;applyS();saveS()}else if(i.id=='cc'){S.acc=i.value;applyS();saveS()}else if(i.id=='q'){qs=i.value;$('#sres').innerHTML=resHTML()}else if(i.id=='dim'){S.dim=+i.value;applyS();saveS()}else if(i.id=='bgb'){S.bgb=+i.value;applyS();saveS()}else if(i.id=='xf'){S.xf=+i.value;saveS();const l=$('#xfl');if(l)l.textContent=S.xf?S.xf+' s':'Off'}});
 let tx=0;
