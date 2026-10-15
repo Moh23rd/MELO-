@@ -334,6 +334,57 @@ input:focus-visible{outline:none}
 }
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 html.pwafs [data-a=fs]{display:none!important}html.pwafs .set:has([data-st=fs]){display:none!important}html,body{background:var(--bg)}
+/* ===== v29 ===== */
+/* colour mesh player background */
+@property --m1{syntax:'<color>';inherits:true;initial-value:#2b2b30}
+@property --m2{syntax:'<color>';inherits:true;initial-value:#2b2b30}
+@property --m3{syntax:'<color>';inherits:true;initial-value:#2b2b30}
+@property --m4{syntax:'<color>';inherits:true;initial-value:#2b2b30}
+#full{transition:transform .5s var(--ease),--m1 1.2s ease,--m2 1.2s ease,--m3 1.2s ease,--m4 1.2s ease}
+#full.drag{transition:none}
+.pl-mesh{position:absolute;inset:-12%;background:radial-gradient(58% 44% at 18% 10%,var(--m1) 0,transparent 72%),radial-gradient(58% 44% at 88% 22%,var(--m2) 0,transparent 72%),radial-gradient(70% 52% at 12% 88%,var(--m3) 0,transparent 74%),radial-gradient(70% 52% at 90% 90%,var(--m4) 0,transparent 74%),linear-gradient(var(--m1),var(--m3));animation:meshmove 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes meshmove{0%{transform:translate3d(0,0,0) scale(1.02) rotate(0deg)}50%{transform:translate3d(3%,-2%,0) scale(1.08) rotate(2deg)}100%{transform:translate3d(-3%,3%,0) scale(1.04) rotate(-2deg)}}
+#full[data-bg=mesh] .pl-bgi{opacity:0!important}
+#full[data-bg=art] .pl-mesh{display:none}
+#full[data-bg=mesh] .pl-sh{background:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.26))}
+html.nm .pl-mesh,html.lite .pl-mesh{animation:none}
+/* headphone / speaker label */
+#bo{overflow:visible}
+.ol{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:-2px;display:flex;align-items:center;gap:5px;font-style:normal;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;color:var(--pm);pointer-events:none}
+.ol b{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.34);display:block}
+.set input[type=text]{width:150px;border:0;border-radius:12px;padding:9px 12px;background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg);font:inherit;text-align:right;outline:none}
+/* player scale and spacing, phones in portrait */
+@media (max-width:899px) and (orientation:portrait){
+#full{--px:22px}
+.pl-art .art{width:min(calc(100vw - 44px),480px,max(150px,calc(100dvh - 560px)));border-radius:18px}
+.pl-t b{font-size:21px;line-height:26px;font-weight:800;letter-spacing:-.2px}
+.pl-t span{font-size:19px;line-height:24px;font-weight:700}
+.pl-cb{width:32px;height:32px}.pl-cb svg{width:17px;height:17px}
+.pl-seek{margin-top:22px}
+#sk,#vol{height:26px}
+#sk::-webkit-slider-runnable-track,#vol::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(255,255,255,.9) var(--p,0%),rgba(255,255,255,.26) var(--p,0%))}
+#sk:active::-webkit-slider-runnable-track{height:12px}
+.pl-tm{font-size:13px;font-weight:600;margin-top:2px}
+.pl-tr{margin-top:28px;gap:clamp(34px,15vw,70px)}
+.pl-sk svg{width:54px;height:48px}
+#ppb svg{width:68px;height:68px}
+.pl-vol{margin-top:36px;gap:16px}.pl-vol svg{width:19px;height:19px}
+.pl-bot{margin-top:26px;margin-bottom:12px}.pl-bot button{width:54px;height:54px}.pl-bot svg{width:26px;height:26px}
+}
+/* premium progressive blur: soft, strong at the edge, never a flat fade */
+:root{--pbl:max(var(--bl,24px),30px)}
+#nav{height:calc(env(safe-area-inset-top,0px) + 86px)}
+#nav .pb4,.dfade .pb4{-webkit-backdrop-filter:blur(calc(var(--pbl)*.95)) saturate(1.35);backdrop-filter:blur(calc(var(--pbl)*.95)) saturate(1.35)}
+#nav .pb3,.dfade .pb3{-webkit-backdrop-filter:blur(calc(var(--pbl)*.5)) saturate(1.25);backdrop-filter:blur(calc(var(--pbl)*.5)) saturate(1.25)}
+#nav .pb2,.dfade .pb2{-webkit-backdrop-filter:blur(calc(var(--pbl)*.22)) saturate(1.15);backdrop-filter:blur(calc(var(--pbl)*.22)) saturate(1.15)}
+#nav .pb1,.dfade .pb1{-webkit-backdrop-filter:blur(calc(var(--pbl)*.09));backdrop-filter:blur(calc(var(--pbl)*.09))}
+#nav::after{background:linear-gradient(color-mix(in srgb,var(--bg) 42%,transparent) 0%,color-mix(in srgb,var(--bg) 16%,transparent) 52%,transparent 100%)!important}
+.dfade::after{background:linear-gradient(color-mix(in srgb,color-mix(in srgb,var(--t,#999) 34%,var(--bg)) 52%,transparent) 0%,color-mix(in srgb,color-mix(in srgb,var(--t,#999) 34%,var(--bg)) 18%,transparent) 52%,transparent 100%)!important}
+/* release polish */
+#bsr input{color:var(--fg)}
+#bsr input::placeholder{color:rgba(60,60,67,.62)}
+html.dk #bsr input::placeholder{color:rgba(255,255,255,.58)}
+html.pwa .set:has([data-st=bbar]){display:none!important}
 </style></head><body>
 <div id="bgimg"></div><div id="app"><div id="nav"><i class="pb pb4"></i><i class="pb pb3"></i><i class="pb pb2"></i><i class="pb pb1"></i><span id="ntt"></span></div><div id="main"></div><div id="bot"><div id="mini" hidden></div><nav id="tabs"><i class="lens"></i><div id="tb"></div></nav><button id="sbtn" data-t="search" aria-label="Search"></button></div></div>
 <div id="det"></div><div id="full"></div><div id="sheet"></div>
@@ -418,7 +469,7 @@ const setHTML=()=>`<h1>Settings</h1><div class="grp"><div class="set pcrd" data-
 <div class="set"><span>Theme</span><div class="seg">${['system','light','dark'].map(x=>`<button data-st="theme" data-v="${x}" class="${S.theme==x?'on':''}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</div></div>
 <div class="set"><span>Accent color</span><div class="sws">${sw.map(c=>`<button class="sw ${S.acc==c?'on':''}" data-st="acc" data-v="${c}" style="background:${c}"></button>`).join('')}<input type="color" id="cc" value="${S.acc}"></div></div>
 <div class="set"><span>Glass blur</span><input type="range" id="bl" min="0" max="50" value="${S.blur}"></div>
-<div class="set"><span>Artwork glow in player</span><button class="tg ${S.bgart?'on':''}" data-st="bgart"></button></div><div class="set"><span>Player style</span><div class="seg">${['compact','full'].map(x=>`<button data-st="pstyle" data-v="${x}" class="${S.pstyle==x?'on':''}">${x=='full'?'Full screen':'Compact'}</button>`).join('')}</div></div><div class="set"><span>Animations</span><button class="tg ${S.motion?'on':''}" data-st="motion"></button></div><div class="set"><span>Full screen (hide browser bar)</span><button class="tg ${S.fs?'on':''}" data-st="fs"></button></div><div class="set"><span>Bounce effect</span><button class="tg ${S.bounce?'on':''}" data-st="bounce"></button></div><div class="set"><span>Back gesture stays inside Melo</span><button class="tg ${S.bk?'on':''}" data-st="bk"></button></div><div class="set"><span>Show volume slider</span><button class="tg ${S.volr?'on':''}" data-st="volr"></button></div><div class="set"><span>Custom background</span><div class="seg3"><button class="pill" data-a="bgpick">${K.bg?'Change':'Choose'}</button>${K.bg?'<button class="pill" data-a="bgrm">Remove</button>':''}</div></div>${K.bg?`<div class="set"><span>Background dim</span><input type="range" id="dim" min="0" max="90" value="${S.dim}"></div><div class="set"><span>Background blur</span><input type="range" id="bgb" min="0" max="40" value="${S.bgb}"></div>`:''}<div class="set"><span>Custom font</span><div class="seg3"><button class="pill" data-a="fontpick">${K.font?'Change':'Choose'}</button>${K.font?'<button class="pill" data-a="fontrm">Remove</button>':''}</div></div><div class="set"><span>Reset appearance to default</span><button class="pill" data-a="reset">Reset</button></div></div>
+<div class="set"><span>Artwork glow in player</span><button class="tg ${S.bgart?'on':''}" data-st="bgart"></button></div><div class="set"><span>Player style</span><div class="seg">${['compact','full'].map(x=>`<button data-st="pstyle" data-v="${x}" class="${S.pstyle==x?'on':''}">${x=='full'?'Full screen':'Compact'}</button>`).join('')}</div></div><div class="set"><span>Animations</span><button class="tg ${S.motion?'on':''}" data-st="motion"></button></div><div class="set"><span>${PWA?'Immersive full screen (hide system bars)':'Full screen (hide browser bar)'}</span><button class="tg ${S.fs?'on':''}" data-st="fs"></button></div><div class="set"><span>Bounce effect</span><button class="tg ${S.bounce?'on':''}" data-st="bounce"></button></div><div class="set"><span>Back gesture stays inside Melo</span><button class="tg ${S.bk?'on':''}" data-st="bk"></button></div><div class="set"><span>Show volume slider</span><button class="tg ${S.volr?'on':''}" data-st="volr"></button></div><div class="set"><span>Custom background</span><div class="seg3"><button class="pill" data-a="bgpick">${K.bg?'Change':'Choose'}</button>${K.bg?'<button class="pill" data-a="bgrm">Remove</button>':''}</div></div>${K.bg?`<div class="set"><span>Background dim</span><input type="range" id="dim" min="0" max="90" value="${S.dim}"></div><div class="set"><span>Background blur</span><input type="range" id="bgb" min="0" max="40" value="${S.bgb}"></div>`:''}<div class="set"><span>Custom font</span><div class="seg3"><button class="pill" data-a="fontpick">${K.font?'Change':'Choose'}</button>${K.font?'<button class="pill" data-a="fontrm">Remove</button>':''}</div></div><div class="set"><span>Reset appearance to default</span><button class="pill" data-a="reset">Reset</button></div></div>
 <div class="grp"><div class="gt">${gi('vhi','#30d158')}Playback</div><div class="set"><span>Speed</span><div class="seg">${[.75,1,1.25,1.5].map(x=>`<button data-st="speed" data-v="${x}" class="${S.speed==x?'on':''}">${x}×</button>`).join('')}</div></div>
 <div class="set"><span>Crossfade <small id="xfl">${S.xf?S.xf+' s':'Off'}</small></span><input type="range" id="xf" min="0" max="12" step="1" value="${S.xf}"></div><div class="set"><span>Resume where I left off</span><button class="tg ${S.resume?'on':''}" data-st="resume"></button></div><div class="set"><span>Keep screen awake</span><button class="tg ${S.wake?'on':''}" data-st="wake"></button></div><div class="set"><span>Sleep timer</span><button class="pill" data-a="sleep">${sleepT?'On':'Set'}</button></div></div>
 <div class="grp"><div class="gt">${gi('lib','#bf5af2')}Library</div><div class="set"><span>${songs.length} songs</span><button class="pill" data-a="add">Add music</button></div><div class="set"><span>Back up stats and settings</span><div class="seg3"><button class="pill" data-a="exp">Save</button><button class="pill" data-a="imp">Restore</button></div></div><div class="set"><span>Sort songs by</span><div class="seg">${['title','artist','recent'].map(x=>`<button data-st="sort" data-v="${x}" class="${S.sort==x?'on':''}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</div></div><div class="set"><span>Remove all songs</span><button class="pill" data-a="wipe">Clear</button></div></div>`;
@@ -544,7 +595,7 @@ const lp=$('#lpt');if(lp){if(!s.lyr){lp.textContent='No lyrics';lp.style.setProp
 const q=$('#qp');if(q&&q.dataset.md=='l'&&q.classList.contains('open')&&L&&i!==lastLy){lastLy=i;q.querySelectorAll('.ly2').forEach((p,k)=>p.classList.toggle('on',k==i));const a=q.querySelector('.ly2.on');if(a)a.scrollIntoView({block:'center',behavior:'smooth'})}}
 function buildFull(s){if(!s)return;const F=$('#full'),st=S.pstyle;
 if(fullFor===s.id&&fullStyle===st){const pb=$('#ppb');if(pb)pb.innerHTML=svg(A.paused?'play':'pause',64);return}
-const was=$('#qp')&&$('#qp').classList.contains('open')?$('#qp').dataset.md:'';fullFor=s.id;fullStyle=st;const c=cv(s);F.dataset.style=st;F.style.setProperty('--tn',tint(s));F.classList.toggle('hasvol',VK());
+const was=$('#qp')&&$('#qp').classList.contains('open')?$('#qp').dataset.md:'';fullFor=s.id;fullStyle=st;const c=cv(s);F.dataset.style=st;F.dataset.bg=S.pbg==='art'?'art':'mesh';F.style.setProperty('--tn',tint(s));F.classList.toggle('hasvol',VK());
 F.innerHTML=`<div class="bgart"></div>${st=='full'?`<div class="fa" data-a="style" style="${c?`background-image:url(${c})`:`background:linear-gradient(160deg,${tint(s)},#000)`}"></div>`:''}<div class="grab" data-a="close"></div>
 <div class="pf">Playing from ${s.album&&s.album!='Unknown Album'?esc(s.album):'your library'}</div><div class="sp"></div><div class="ab" data-a="style">${art(s,'big')}</div>
 <div class="ti"><div class="tt"><h2>${esc(s.title)}</h2><p class="lk" data-pa="1">${esc(s.artist)}</p></div><button class="gl hrt ${FAV.has(s.id)?'on':''}" data-fav="${s.id}">${svg(FAV.has(s.id)?'heartf':'heart',20)}</button><button class="gl" data-m="${s.id}">${svg('dots',20)}</button></div>
@@ -743,7 +794,7 @@ navScroll($('#main'),true);navScroll($('#det'),false);
 const VK=()=>volOK&&S.volr;
 function buildFull(s){if(!s)return;const F=$('#full'),st=S.pstyle;
 if(fullFor===s.id&&fullStyle===st){const pb=$('#ppb');if(pb)pb.innerHTML=svg(A.paused?'play':'pause',44);document.querySelectorAll('.mhp').forEach(b=>b.innerHTML=svg(A.paused?'play':'pause',20));document.querySelectorAll('.seg2 [data-a=shuf]').forEach(b=>b.classList.toggle('on',shuf));document.querySelectorAll('.seg2 [data-a=rep]').forEach(b=>{b.classList.toggle('on',rep>0);b.innerHTML=svg(rep==2?'rep1':'rep',18)});return}
-const q0=$('#qp'),was=q0&&q0.classList.contains('open')?q0.dataset.md:'';fullFor=s.id;fullStyle=st;const c=cv(s),f=FAV.has(s.id);F.dataset.style=st;F.style.setProperty('--tn',tint(s));F.classList.toggle('hasvol',VK());
+const q0=$('#qp'),was=q0&&q0.classList.contains('open')?q0.dataset.md:'';fullFor=s.id;fullStyle=st;const c=cv(s),f=FAV.has(s.id);F.dataset.style=st;F.dataset.bg=S.pbg==='art'?'art':'mesh';F.style.setProperty('--tn',tint(s));F.classList.toggle('hasvol',VK());
 const hb=`<button class="gl hrt ${f?'on':''}" data-fav="${s.id}">${svg(f?'heartf':'heart',18)}</button><button class="gl" data-m="${s.id}">${svg('dots',20)}</button>`,tt=`<div class="tt"><h2>${esc(s.title)}</h2><p class="lk" data-pa="1">${esc(s.artist)}</p></div>`;
 F.innerHTML=`<div class="bgart"></div>${st=='full'?`<div class="fa" data-a="style" style="${c?`background-image:url(${c})`:`background:linear-gradient(160deg,${tint(s)},#000)`}"></div>`:''}<div class="grab" data-a="close"></div>
 <div class="pf">Playing from ${s.album&&s.album!='Unknown Album'?esc(s.album):'your library'}</div><div class="mh">${art(s)}${tt}<button class="gl mhp" data-a="pp">${svg(A.paused?'play':'pause',20)}</button>${hb}</div><div class="sp"></div><div class="ab" data-a="style">${art(s,'big')}</div>
@@ -849,7 +900,7 @@ ${segr('Text size','tz',[[.9,'Small'],[1,'Default'],[1.12,'Large']])}${tgr('Comp
 <div class="set"><span>Custom background</span><div class="seg3"><button class="pill" data-a="bgpick">${K.bg?'Change':'Choose'}</button>${K.bg?'<button class="pill" data-a="bgrm">Remove</button>':''}</div></div>
 ${K.bg?`<div class="set"><span>Background dim</span><input type="range" id="dim" min="0" max="90" value="${S.dim}"></div><div class="set"><span>Background blur</span><input type="range" id="bgb" min="0" max="40" value="${S.bgb}"></div>`:''}
 <div class="set"><span>Custom font</span><div class="seg3"><button class="pill" data-a="fontpick">${K.font?'Change':'Choose'}</button>${K.font?'<button class="pill" data-a="fontrm">Remove</button>':''}</div></div>${btnr('Reset appearance to default',[['reset','Reset']])}</div>
-<div class="grp"><div class="gt">${gi('play','#fa2d48')}Player</div>${segr('Player style','pstyle',[['compact','Compact'],['full','Full screen']])}${tgr('Artwork glow','bgart')}${tgr('Use my custom font','pfont','Off uses the Apple-style system font everywhere')}${tgr('Blur unfocused lyrics','lblur')}${segr('Lyrics size','lz',[[.9,'Small'],[1,'Default'],[1.2,'Large']])}${tgr('Audio format badge','fmtb','Shows Lossless, MP3, etc. under the seek bar')}${tgr('Show volume slider','volr')}</div>
+<div class="grp"><div class="gt">${gi('play','#fa2d48')}Player</div>${segr('Player style','pstyle',[['compact','Compact'],['full','Full screen']])}${tgr('Artwork glow','bgart')}${tgr('Use my custom font','pfont','Off uses the Apple-style system font everywhere')}${tgr('Blur unfocused lyrics','lblur')}${segr('Lyrics size','lz',[[.9,'Small'],[1,'Default'],[1.2,'Large']])}${tgr('Audio format badge','fmtb','Shows Lossless, MP3, etc. under the seek bar')}${tgr('Show volume slider','volr')}${segr('Player background','pbg',[['mesh','Color mesh'],['art','Artwork blur']])}${segr('Audio output icon','outm',[['auto','Auto'],['spk','Speaker'],['ear','Headphones']])}<div class="set"><span>Headphone name</span><input type="text" id="outn" maxlength="22" placeholder="Optional" value="${esc(S.outName||'')}"></div>${btnr('Read headphone name',[['outperm','Allow']])}</div>
 <div class="grp"><div class="gt">${gi('vhi','#30d158')}Playback</div>${segr('Speed','speed',[[.75,'0.75×'],[1,'1×'],[1.25,'1.25×'],[1.5,'1.5×']])}${tgr('Preserve pitch','pp')}
 <div class="set"><span>Crossfade <small id="xfl">${S.xf?S.xf+' s':'Off'}</small></span><input type="range" id="xf" min="0" max="12" step="1" value="${S.xf}"></div>${tgr('Fade on pause and resume','pfade')}${tgr('Autoplay next song','auto')}${tgr('Resume where I left off','resume')}${tgr('Keep screen awake','wake')}
 <div class="set"><span>Sleep timer</span><button class="pill" data-a="sleep">${sleepT?'On':'Set'}</button></div></div>
@@ -938,7 +989,7 @@ let qlock=false;
 const fmtLabel=s=>{const x=((s.file&&s.file.name||'').split('.').pop()||'').toLowerCase();return (['flac','wav','aif','aiff','alac'].includes(x)||(typeof Q!=='undefined'&&Q[s.id]&&Q[s.id].lossless))?'Lossless':x?x.toUpperCase():'Audio'};
 function buildFull(s){if(!s)return;const F=$('#full'),st=S.pstyle;
 if(fullFor===s.id&&fullStyle===st){const pb=$('#ppb');if(pb)pb.innerHTML=svg(A.paused?'play':'pause',44);document.querySelectorAll('.mhp').forEach(b=>b.innerHTML=svg(A.paused?'play':'pause',20));return}
-const q0=$('#qp'),was=q0&&q0.classList.contains('open')?q0.dataset.md:'';fullFor=s.id;fullStyle=st;const c=cv(s),f=FAV.has(s.id);F.dataset.style=st;F.style.setProperty('--tn',tint(s));F.classList.toggle('hasvol',VK());
+const q0=$('#qp'),was=q0&&q0.classList.contains('open')?q0.dataset.md:'';fullFor=s.id;fullStyle=st;const c=cv(s),f=FAV.has(s.id);F.dataset.style=st;F.dataset.bg=S.pbg==='art'?'art':'mesh';F.style.setProperty('--tn',tint(s));F.classList.toggle('hasvol',VK());
 const hb=`<button class="gl hrt ${f?'on':''}" data-fav="${s.id}">${svg(f?'heartf':'heart',18)}</button><button class="gl" data-m="${s.id}">${svg('dots',20)}</button>`,tt=`<div class="tt"><h2>${esc(s.title)}</h2><p class="lk" data-pa="1">${esc(s.artist)}</p></div>`;
 F.innerHTML=`<div class="bgart"></div>${st=='full'?`<div class="fa" data-a="style" style="${c?`background-image:url(${c})`:`background:linear-gradient(160deg,${tint(s)},#000)`}"></div>`:''}<div class="grab" data-a="close"></div>
 <div class="pf">Playing from ${s.album&&s.album!='Unknown Album'?esc(s.album):'your library'}</div><div class="mh">${art(s)}${tt}<button class="gl mhp" data-a="pp">${svg(A.paused?'play':'pause',20)}</button>${hb}</div><div class="sp"></div><div class="ab" data-a="style">${art(s,'big')}</div>
@@ -946,7 +997,7 @@ F.innerHTML=`<div class="bgart"></div>${st=='full'?`<div class="fa" data-a="styl
 <div class="sk"><input type="range" id="sk" min="0" max="${A.duration||0}" step="0.1" value="${A.currentTime}"><div class="tm"><span id="t1">${fmt(A.currentTime)}</span><button class="chip2" data-a="qual" aria-label="Audio quality">${svg('wave',14)}${fmtLabel(s)}</button><span id="t2">-${fmt((A.duration||0)-A.currentTime)}</span></div></div>
 <div class="mc"><button data-a="pv">${svg('prev',34)}</button><button id="ppb" data-a="pp">${svg(A.paused?'play':'pause',44)}</button><button data-a="nx">${svg('next',34)}</button></div>
 ${VK()?`<div class="vol">${svg('vlo',16)}<input type="range" id="vol" min="0" max="1" step="0.01" value="${A.volume}">${svg('vhi',16)}</div>`:''}
-<div class="bt"><button data-a="lyr" id="bl" aria-label="Lyrics">${svg('lyr',24)}</button><button data-a="outp" id="bo" aria-label="Audio output">${svg('out',26)}</button><button data-a="queue" id="bq" aria-label="Queue">${svg('list',24)}</button></div>`;
+<div class="bt"><button data-a="lyr" id="bl" aria-label="Lyrics">${svg('lyr',24)}</button><button data-a="outp" id="bo" data-sz="26" aria-label="Audio output">${outIcon(26)}</button><button data-a="queue" id="bq" aria-label="Queue">${svg('list',24)}</button></div>`;
 const r=$('#sk');r.oninput=()=>seekPrev(r);r.onchange=()=>seekEnd(r);r.onpointerup=()=>seekEnd(r);r.onpointercancel=()=>{seekT=null;r.d=0};r.style.setProperty('--p',(A.currentTime/(A.duration||1)*100)+'%');
 const v=$('#vol');if(v){v.style.setProperty('--p',v.value*100+'%');v.oninput=()=>{UV=+v.value;if(!fading)A.volume=UV;v.style.setProperty('--p',v.value*100+'%')}}
 bgBlur(s).then(u=>{const b=document.querySelector('#full .bgart');if(b&&u){b.style.backgroundImage=`url(${u})`;b.classList.add('rdy')}});lastLy=-2;if(was){$('#qp').classList.add('open');$('#qp').dataset.md=was;was=='l'?lpanel(true):qpanel(true)}tickLyric()}
@@ -1017,8 +1068,8 @@ function placePop(pop,an,wd){const W=innerWidth,Hh=innerHeight,w=Math.min(wd||27
 if(an&&an.getBoundingClientRect){const r=an.getBoundingClientRect();if(r.width>0){left=Math.min(W-w-12,Math.max(12,r.left+r.width/2-w/2));top=r.top-ph-10;if(top<12)top=Math.min(r.bottom+8,Hh-ph-12);if(top+ph>Hh-12)top=Math.max(12,Hh-ph-12);pop.style.transformOrigin=`${r.left+r.width/2-left}px ${top<r.top?'100%':'0'}`}}pop.style.left=left+'px';pop.style.top=top+'px'}
 function audioOptions(){sheet([...[.75,1,1.25,1.5,2].map(v=>[(S.speed==v?'✓ ':'')+'Speed '+v+'×',()=>{S.speed=v;saveS();A.defaultPlaybackRate=A.playbackRate=v;toast('Speed '+v+'×')}]),['Crossfade: '+(S.xf?S.xf+' s':'Off')+' (tap to change)',()=>{const o=[0,3,6,9,12];S.xf=o[(o.indexOf(S.xf)+1)%o.length];saveS();toast('Crossfade '+(S.xf?S.xf+' s':'off'))}],['Sleep timer…',()=>sleep()]])}
 async function outPop(){const s=byId(queue[qi]);let devs=[];try{if(navigator.mediaDevices&&navigator.mediaDevices.enumerateDevices)devs=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind=='audiooutput')}catch(e){}
-const canSel=!!(navigator.mediaDevices&&navigator.mediaDevices.selectAudioOutput),cur=OUT.id||'default',rows=[{id:'default',label:'Phone speaker'}];let n=0;devs.forEach(d=>{if(d.deviceId&&d.deviceId!='default'&&d.deviceId!='communications')rows.push({id:d.deviceId,label:d.label||('Audio device '+(++n))})});
-const sh2=$('#sheet');sh2.innerHTML=`<div class="pop op">${s?`<div class="oh">${art(s)}<div class="t"><b>${esc(s.title)}</b><span>${esc(s.artist)}</span></div></div>`:''}${rows.map(r=>`<button class="orow ${r.id==cur?'on':''}" data-od="${esc(r.id)}"><span>${esc(r.label)}</span>${r.id==cur?svg('check',22):''}</button>`).join('')}${canSel?'<button class="orow2" data-oc="1">Choose another device…</button>':''}<button class="orow2" data-oa="1">Audio options…</button>${rows.length<2&&!canSel?'<p class="onote">Bluetooth speakers and headphones connect through your phone settings. Melo follows your phone\'s audio output automatically.</p>':''}</div>`;
+const canSel=!!(navigator.mediaDevices&&navigator.mediaDevices.selectAudioOutput),cur=OUT.id||(OUTK.kind==='ear'?'__ear':'default'),rows=[...(OUTK.kind==='ear'?[{id:'__ear',label:OUTK.name||'Headphones',ear:1}]:[]),{id:'default',label:'Phone speaker'}];let n=0;devs.forEach(d=>{if(d.deviceId&&d.deviceId!='default'&&d.deviceId!='communications')rows.push({id:d.deviceId,label:d.label||('Audio device '+(++n))})});
+const sh2=$('#sheet');sh2.innerHTML=`<div class="pop op">${s?`<div class="oh">${art(s)}<div class="t"><b>${esc(s.title)}</b><span>${esc(s.artist)}</span></div></div>`:''}${rows.map(r=>`<button class="orow ${r.id==cur?'on':''}" data-od="${esc(r.id)}"><span>${r.ear?svg('ouear',18)+' ':''}${esc(r.label)}</span>${r.id==cur?svg('check',22):''}</button>`).join('')}${canSel?'<button class="orow2" data-oc="1">Choose another device…</button>':''}<button class="orow2" data-oa="1">Audio options…</button>${rows.length<2&&!canSel?'<p class="onote">Bluetooth speakers and headphones connect through your phone settings. Melo follows your phone\'s audio output automatically.</p>':''}</div>`;
 sh2.classList.add('open');placePop(sh2.firstElementChild,lastEl,320);
 sh2.onclick=async e=>{const t=e.target;if(t===sh2){sh2.classList.remove('open');return}const d=t.closest('[data-od]');
 if(d){const id=d.dataset.od;try{if(A.setSinkId)await A.setSinkId(id==='default'?'':id);OUT.id=id==='default'?'':id;toast('Output: '+d.querySelector('span').textContent)}catch(x){toast('Could not switch output')}sh2.classList.remove('open');return}
@@ -1078,7 +1129,7 @@ let lastPos=0;A.addEventListener('timeupdate',()=>{const n=Date.now();if(n-lastP
 try{MS.setActionHandler('seekto',d=>{if(d.seekTime!=null)A.currentTime=d.seekTime});MS.setActionHandler('seekbackward',d=>{A.currentTime=Math.max(0,A.currentTime-(d.seekOffset||10))});MS.setActionHandler('seekforward',d=>{A.currentTime=Math.min(A.duration||1e9,A.currentTime+(d.seekOffset||10))});MS.setActionHandler('stop',()=>{userPaused=true;A.pause()})}catch(e){}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){A.volume=UV;fading=false;if(xfIn)clearInterval(xfIn)}else{if(userPaused)return;if(A.ended&&S.auto!==false){next(true)}else if(pendingPlay&&A.paused){A.play().catch(()=>{})}}});
 /* ===== v16 (pre-release 0.9): fullscreen fix, haptics, home order, stats drill-down, polish ===== */
-const VER='0.9.1-beta.10',ERR=[];
+const VER='0.9.1-beta.11',ERR=[];
 addEventListener('error',e=>{ERR.push((e.message||'error')+' @'+((e.filename||'').split('/').pop())+':'+e.lineno);if(ERR.length>20)ERR.shift()});
 addEventListener('unhandledrejection',e=>{ERR.push('promise: '+((e.reason&&e.reason.message)||e.reason));if(ERR.length>20)ERR.shift()});
 Object.assign(IC,{fs:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/>',fsx:'<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/>'});
@@ -1093,7 +1144,7 @@ document.addEventListener('click',e=>{const T=e.target;if(T.closest('#tb button'
 document.addEventListener('click',e=>{if(e.target.closest('[data-st=hapl]'))setTimeout(()=>hap('tap'),30)});
 /* ---- full screen: works on the first tap, quick toggle from Home ---- */
 function fsTick(){}
-function toggleFs(){if(document.fullscreenElement){window.__uex=1;S.immOff=true;saveS();document.exitFullscreen().catch(()=>{});return}S.immOff=false;
+function toggleFs(){if(document.fullscreenElement){window.__uex=1;S.immOn=false;saveS();document.exitFullscreen().catch(()=>{});return}S.immOn=true;
 const el=document.documentElement,req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){toast('Full screen is not available in this browser');return}
 Promise.resolve().then(()=>req.call(el,{navigationUI:'hide'})).catch(()=>req.call(el)).catch(()=>toast('Full screen is not available here'))}
 document.addEventListener('fullscreenchange',()=>{const f=!!document.fullscreenElement;document.documentElement.classList.toggle('fsm',f);if(f||!PWA||window.__uex){S.fs=f;saveS()}else if(immWant()){S.fs=true}window.__uex=0;if(tab=='home'||tab=='settings')render(true)});
@@ -1141,7 +1192,7 @@ let rzT=0;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{c
 const AL={pp:'Play or pause',nx:'Next song',pv:'Previous song',lyr:'Lyrics',queue:'Queue',outp:'Audio output',qual:'Audio quality',back:'Back',dedit:'Edit',profile:'Profile',rview:'Change view',fs:'Full screen',shufall:'Shuffle',playall:'Play',close:'Close player'};
 function a11y(){document.querySelectorAll('[data-a]:not([aria-label]),[data-m]:not([aria-label]),[data-fav]:not([aria-label])').forEach(b=>{const k=b.dataset.a;if(AL[k])b.setAttribute('aria-label',AL[k]);else if(b.dataset.m)b.setAttribute('aria-label','More options');else if(b.dataset.fav)b.setAttribute('aria-label','Favorite')})}
 function diag(){const o={melo:VER,time:new Date().toISOString(),ua:navigator.userAgent,screen:innerWidth+'x'+innerHeight+'@'+devicePixelRatio,storage:db?'IndexedDB ok':'unavailable',songs:songs.length,history:LOG.length,fullscreen:!!document.fullscreenElement,secure:isSecureContext,settings:S,errors:ERR};return JSON.stringify(o,null,2)}
-const CHANGES=['#Improvements','Edge-to-edge, immersive installed app: the page runs under the status and navigation bars with no black or white bars','Install it from Chrome as an app: it opens in its own window with no address bar, and keeps working offline','Desktop: scroll through daily mixes and every carousel by dragging with the mouse, with previous and next buttons on hover','Gestures lock to one direction, so sliding through the daily mixes can never turn into a pull or a refresh','Cleaner cards: no more clipped shadow edges around the daily mixes','Honors the system reduced-motion setting, with smoother resize handling','#Bug fixes','Fixed black and white bars at the top and bottom when launched from the home screen and the status bar fade not showing','Fixed the weird edges around the daily mix cards','Fixed the jumpy motion and accidental refresh when scrolling through daily mixes','Fixed daily mixes and carousels not scrolling with a mouse on desktop'];
+const CHANGES=['#Improvements','Player redesign: a living color mesh built from the artwork, larger artwork, bigger controls and thicker sliders','The output button shows earbuds with the device name when headphones are connected, and a speaker for the phone','A premium progressive blur under the status bar and album headers, with a real minimum blur strength','System bars stay visible and take the color of the screen, instead of hiding or flashing','Heart and play buttons have a subtle pop, and the installed app is steadier at the edges','#Bug fixes','Fixed the flat fade that replaced the blur at the top of the screen','Fixed the status bar flicker caused by immersive mode and constant color changes'];
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;
 if(k=='about'){e.stopPropagation();mcard(`${svg('songs',72).replace('<svg ','<svg class="qi" ')}<h3>Melo ${VER}</h3><p>Pre-release. Your music stays on this device.</p><button class="pb" data-act="new">What's new</button><button class="pb w" data-act="ok">OK</button>`,{new:()=>mcard(`<h3>What's in this build</h3>${CHANGES.map(x=>x[0]=='#'?`<div class=\"ir\" style=\"font-weight:700;margin-top:10px\"><span>${x.slice(1)}</span></div>`:`<div class=\"ir\"><span>${x}</span></div>`).join('')}<button class="pb w" data-act="ok" style="margin-top:14px">OK</button>`)})}
 else if(k=='diag'){e.stopPropagation();copyText(diag())}},true);
@@ -1175,10 +1226,10 @@ function refreshChip(s){document.querySelectorAll('.pl-chip').forEach(c=>c.inner
 function buildFull(s){if(!s)return;const F=$('#full'),st=S.pstyle;
 if(fullFor===s.id&&fullStyle===st){plSync();return}
 const q0=$('#qp');let was=q0&&q0.classList.contains('open')?q0.dataset.md:'';
-fullFor=s.id;fullStyle=st;const f=FAV.has(s.id);F.dataset.style=st;F.style.setProperty('--tn',tint(s));
+fullFor=s.id;fullStyle=st;const f=FAV.has(s.id);F.dataset.style=st;F.dataset.bg=S.pbg==='art'?'art':'mesh';F.style.setProperty('--tn',tint(s));
 const t=`<b>${esc(s.title)}</b><span data-pa="1">${esc(s.artist)}</span>`,
 btns=`<button class="pl-cb ${f?'on':''}" data-fav="${s.id}" data-ic="star" aria-label="Favorite">${svg(f?'starf':'star',20)}</button><button class="pl-cb" data-m="${s.id}" aria-label="More options">${svg('dots',20)}</button>`;
-F.innerHTML=`<div class="pl-bg"><i class="pl-bgi"></i><i class="pl-sh"></i></div><div class="grab" data-a="close" aria-label="Close player"></div>
+F.innerHTML=`<div class="pl-bg"><i class="pl-mesh" style="animation-delay:-${(performance.now()/1000%26).toFixed(2)}s"></i><i class="pl-bgi"></i><i class="pl-sh"></i></div><div class="grab" data-a="close" aria-label="Close player"></div>
 <div class="pl-top"><button class="pl-cb" data-a="close" aria-label="Close player">${svg('down',20)}</button><button class="pl-cb" data-a="fs" aria-label="Full screen">${svg('fs',18)}</button></div>
 <div class="pl-a" data-a="style"><div class="pl-art">${art(s,'big')}</div></div>
 <div class="pl-mh">${art(s)}<div class="pl-t">${t}</div><div class="pl-cbs">${btns}</div></div>
@@ -1187,10 +1238,10 @@ F.innerHTML=`<div class="pl-bg"><i class="pl-bgi"></i><i class="pl-sh"></i></div
 <div class="pl-seek"><input type="range" id="sk" min="0" max="${A.duration||0}" step="0.1" value="${A.currentTime}" aria-label="Seek"><div class="pl-tm"><span id="t1">${fmt(A.currentTime)}</span><button class="pl-chip" data-a="qual" aria-label="Audio quality">${svg('wave',14)}${fmtLabel(s)}</button><span id="t2">-${fmt((A.duration||0)-A.currentTime)}</span></div></div>
 <div class="pl-tr"><button class="pl-sm ${shuf?'on':''}" data-a="shuf" aria-label="Shuffle">${svg('shuf',22)}</button><button class="pl-sk" data-a="pv" aria-label="Previous">${svg('ppv',46)}</button><button id="ppb" data-a="pp" aria-label="Play or pause">${pbIc()}</button><button class="pl-sk" data-a="nx" aria-label="Next">${svg('pnx',46)}</button><button class="pl-sm ${rep?'on':''}" data-a="rep" aria-label="Repeat">${svg(rep==2?'rep1':'rep',22)}</button></div>
 ${VK()?`<div class="pl-vol">${svg('vlo',15)}${`<input type="range" id="vol" min="0" max="1" step="0.01" value="${A.volume}" aria-label="Volume">`}${svg('vhi',15)}</div>`:''}
-<div class="pl-bot"><button id="bl" data-a="lyr" aria-label="Lyrics">${svg('lyq',23)}</button><button id="bo" data-a="outp" aria-label="Audio output">${svg('out',24)}</button><button id="bq" data-a="queue" aria-label="Queue">${svg('list',23)}${badgeHTML()}</button></div>`;
+<div class="pl-bot"><button id="bl" data-a="lyr" aria-label="Lyrics">${svg('lyq',23)}</button><button id="bo" data-a="outp" aria-label="Audio output">${outIcon(24)}</button><button id="bq" data-a="queue" aria-label="Queue">${svg('list',23)}${badgeHTML()}</button></div>`;
 const r=$('#sk');r.oninput=()=>seekPrev(r);r.onchange=()=>seekEnd(r);r.onpointerup=()=>seekEnd(r);r.onpointercancel=()=>{seekT=null;r.d=0};r.style.setProperty('--p',(A.currentTime/(A.duration||1)*100)+'%');
 const v=$('#vol');if(v){v.style.setProperty('--p',v.value*100+'%');v.oninput=()=>{UV=+v.value;if(!fading)A.volume=UV;v.style.setProperty('--p',v.value*100+'%')}}
-plApplyBg(s);{const q=$('#qp');if(q&&!q._b){q._b=1;bounce(q)}}{const a=document.querySelector('#full .pl-art .art');if(a&&a.animate&&S.motion!==false&&!A.paused)a.animate([{opacity:0,transform:'scale(.95)'},{opacity:1,transform:'none'}],{duration:460,easing:'cubic-bezier(.32,.72,0,1)'})}if(isDesk()&&!was)was='l';
+plApplyBg(s);plMesh(s);{const q=$('#qp');if(q&&!q._b){q._b=1;bounce(q)}}{const a=document.querySelector('#full .pl-art .art');if(a&&a.animate&&S.motion!==false&&!A.paused)a.animate([{opacity:0,transform:'scale(.95)'},{opacity:1,transform:'none'}],{duration:460,easing:'cubic-bezier(.32,.72,0,1)'})}if(isDesk()&&!was)was='l';
 lastLy=-2;lastDots=-2;if(was=='l')lpanel(true);else if(was=='q')qpanel(true);tickLyric()}
 /* ---- lyrics ---- */
 function lyricGroups(s){if(LG[s.id])return LG[s.id];const L=lrcOf(s);if(!L)return null;const G=[];L.forEach(l=>{const p=G[G.length-1];if(p&&Math.abs(p.t-l.t)<.02&&l.x&&!l.est){if(p.x)p.sub.push(l.x);else p.x=l.x}else G.push({t:l.t,x:l.x,sub:[],est:l.est})});return LG[s.id]=G}
@@ -1465,7 +1516,7 @@ function bbarCalc(){let v=0;const m=S.bbar||'auto';if(!document.fullscreenElemen
 if(window.visualViewport)visualViewport.addEventListener('resize',bbarCalc);addEventListener('resize',bbarCalc);document.addEventListener('fullscreenchange',()=>setTimeout(bbarCalc,150));
 document.addEventListener('click',e=>{if(e.target.closest('[data-st=bbar]'))setTimeout(bbarCalc,40)});setTimeout(bbarCalc,0);
 /* play / pause: update the player instantly (no delayed zoom or icon flash) */
-document.addEventListener('click',e=>{const b=e.target.closest('[data-a=pp],#ppb');if(!b||!A.src)return;const wp=!A.paused,F=$('#full');setTimeout(()=>{F.classList.toggle('paused',wp);const pb=$('#ppb');if(pb)pb.innerHTML=svg(wp?'ppl':'ppa',56)},0);setTimeout(()=>{F.classList.toggle('paused',A.paused);plSync()},750)},true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a=pp],#ppb');if(!b||!A.src)return;const wp=!A.paused,F=$('#full');setTimeout(()=>{F.classList.toggle('paused',wp);const pb=$('#ppb');if(pb){pb.innerHTML=svg(wp?'ppl':'ppa',56);const sv=pb.firstElementChild;if(sv&&sv.animate&&S.motion)sv.animate([{transform:'scale(.78)',opacity:.55},{transform:'scale(1)',opacity:1}],{duration:280,easing:'cubic-bezier(.34,1.56,.64,1)'})}},0);setTimeout(()=>{F.classList.toggle('paused',A.paused);plSync()},750)},true);
 /* friendly empty states while filtering */
 document.addEventListener('input',e=>{const i=e.target;if(i.id!='sq')return;setTimeout(()=>{const set=i.id=='sq',rows=[...document.querySelectorAll(set?'#main .set':'#det .tr')],vis=rows.some(r=>!r.hidden&&r.style.display!=='none'&&r.offsetParent!==null),host=set?$('#main .mw'):$('#det .dlist');if(!host)return;let n=host.querySelector('.nores');if(!vis&&i.value.trim()){if(!n){n=document.createElement('div');n.className='nores';n.textContent='No matches';host.appendChild(n)}}else if(n)n.remove()},40)});
 /* one calm toast if something unexpected breaks */
@@ -1540,13 +1591,12 @@ c.addEventListener('scroll',upd,{passive:true});if(window.ResizeObserver)new Res
 var PWA=matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true;
 if(PWA)document.documentElement.classList.add('pwa');
 function bbarCalc(){const m=!PWA&&!document.fullscreenElement&&S.bbar==='bottom'?58:0;document.documentElement.style.setProperty('--bbar',m+'px')}bbarCalc();
-{const tc=document.querySelector('meta[name=theme-color]'),R=document.documentElement,sync=()=>{const c=getComputedStyle(R).getPropertyValue('--bg').trim()||getComputedStyle(document.body).backgroundColor;if(c&&tc)tc.setAttribute('content',c)};sync();
-new MutationObserver(sync).observe(R,{attributes:true,attributeFilter:['class','data-theme','style']});const mq=matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener)mq.addEventListener('change',()=>setTimeout(sync,60))}
+
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 /* ===== v28 (0.9.1-beta.10): edge-to-edge, immersive installed app ===== */
 var PWAFS=matchMedia('(display-mode: fullscreen)').matches;if(PWAFS)document.documentElement.classList.add('pwafs');
 /* installed but not yet fullscreen (standalone window): go immersive on the first touch, and again after returning to the app */
-const immWant=()=>PWA&&!PWAFS&&!S.immOff;
+const immWant=()=>PWA&&!PWAFS&&S.immOn===true;
 if(immWant())S.fs=true;
 {let last=0;const again=()=>{if(!immWant()||document.fullscreenElement||document.hidden)return;const n=Date.now();if(n-last<1200)return;last=n;try{document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{})}catch(e){}};
 document.addEventListener('pointerup',again,true);document.addEventListener('touchend',again,true)}
@@ -1556,6 +1606,55 @@ document.addEventListener('scroll',e=>{const t=e.target;if(!t||!t.id)return;if(t
 ['pageshow','resize','orientationchange','fullscreenchange'].forEach(ev=>addEventListener(ev,()=>setTimeout(syncFade,60)));
 document.addEventListener('visibilitychange',()=>setTimeout(syncFade,80));
 new MutationObserver(()=>syncFade()).observe($('#main'),{childList:true});
+/* ===== v29 (0.9.1-beta.11): colour mesh player, headphone icon, premium blur, calmer system bars ===== */
+S.pbg=S.pbg||'mesh';S.outm=S.outm||'auto';
+Object.assign(IC,{
+ouspk:'<path d="M3.500 9.600v4.800h3.300l4.600 3.800V5.800L6.800 9.600z"/><path d="M14.600 9.200a4 4 0 010 5.600M17.200 6.600a7.600 7.600 0 010 10.800" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+ouear:'<ellipse cx="7.600" cy="8.200" rx="3.900" ry="4.400"/><rect x="9.400" y="9.600" width="2.200" height="10.200" rx="1.100"/><ellipse cx="16.400" cy="8.200" rx="3.900" ry="4.400"/><rect x="12.400" y="9.600" width="2.200" height="10.200" rx="1.100"/>'});
+/* ---- colour mesh from the artwork ---- */
+const MESH={};
+function toneC(r,g,b){r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0,l=(mx+mn)/2;if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;h*=60}
+s=Math.min(.9,s*1.22+.04);l=Math.min(.5,Math.max(.2,l*.9));return `hsl(${Math.round(h)} ${Math.round(s*100)}% ${Math.round(l*100)}%)`}
+function meshFrom(img){const N=16,c=document.createElement('canvas');c.width=c.height=N;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(img,0,0,N,N);const d=x.getImageData(0,0,N,N).data;
+const avg=(x0,y0,x1,y1)=>{let r=0,g=0,b=0,n=0;for(let y=y0;y<y1;y++)for(let xx=x0;xx<x1;xx++){const i=(y*N+xx)*4;r+=d[i];g+=d[i+1];b+=d[i+2];n++}return toneC(r/n,g/n,b/n)};
+return [avg(0,0,8,8),avg(8,0,16,8),avg(0,8,8,16),avg(8,8,16,16)]}
+async function plMesh(s){const F=$('#full');if(!F||S.pbg==='art'||!s)return;let c=MESH[s.id];
+if(!c){const u=cv(s);if(u)c=await new Promise(r=>{const i=new Image();i.onload=()=>{try{r(meshFrom(i))}catch(e){r(null)}};i.onerror=()=>r(null);i.src=u});if(!c){const b=tint(s);c=[b,b,b,b]}MESH[s.id]=c}
+if(fullFor!==s.id)return;c.forEach((x,i)=>F.style.setProperty('--m'+(i+1),x));window.__plTop=c[0];syncTheme()}
+/* ---- system bar colour follows what is on screen (and only changes when the colour does) ---- */
+let tcLast='',tcRaf=0;
+function themeColor(){const F=$('#full');if(F&&F.classList.contains('open')&&S.pbg!=='art'&&window.__plTop)return window.__plTop;const c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();return c||'#000000'}
+function syncTheme(){cancelAnimationFrame(tcRaf);tcRaf=requestAnimationFrame(()=>{const c=themeColor();if(c===tcLast)return;tcLast=c;const m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',c)})}
+new MutationObserver(syncTheme).observe(document.documentElement,{attributes:true,attributeFilter:['class','data-theme']});
+new MutationObserver(syncTheme).observe($('#full'),{attributes:true,attributeFilter:['class']});
+syncTheme();
+{const mq=matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener)mq.addEventListener('change',()=>setTimeout(syncTheme,80))}
+/* does this phone let the page draw under the system bars? */
+{const pr=document.createElement('div');pr.style.cssText='position:fixed;top:0;left:0;padding-top:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none';document.body.appendChild(pr);
+const chk=()=>document.documentElement.classList.toggle('e2e',PWA&&parseFloat(getComputedStyle(pr).paddingTop)>0);chk();addEventListener('resize',chk)}
+/* ---- which audio output is in use: earbuds or the phone speaker ---- */
+var OUTK={kind:'speaker',name:''};
+const EARRE=/bluetooth|headset|headphone|earbud|airpod|buds|pods|wired|a2dp|hands.?free|usb.*audio/i;
+const cleanDev=l=>String(l||'').replace(/\(.*?\)/g,' ').replace(/bluetooth|headset|hands.?free|a2dp|audio|device|[-_]/ig,' ').replace(/\s+/g,' ').trim();
+function outIcon(sz=24){const e=OUTK.kind==='ear';return svg(e?'ouear':'ouspk',sz)+(e&&OUTK.name?`<i class="ol">${esc(OUTK.name)}<b></b></i>`:'')}
+function refreshOut(){const b=document.querySelector('#bo');if(b)b.innerHTML=outIcon(+(b.dataset.sz||24))}
+let oc=null;
+async function latencyHint(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return 0;if(!oc)oc=new AC({latencyHint:'playback'});if(oc.state==='suspended')await oc.resume();await new Promise(r=>setTimeout(r,250));const v=oc.outputLatency||0;oc.suspend().catch(()=>{});return v}catch(e){return 0}}
+async function detectOut(){const mode=S.outm||'auto';let k='speaker',n='';
+if(mode==='ear')k='ear';
+else if(mode==='auto'){try{const md=navigator.mediaDevices;if(md&&md.enumerateDevices){const ds=await md.enumerateDevices();const hit=ds.find(d=>(d.kind==='audiooutput'||d.kind==='audioinput')&&d.label&&EARRE.test(d.label));if(hit){k='ear';n=cleanDev(hit.label)}}}catch(e){}
+if(k==='speaker'&&!A.paused&&(await latencyHint())>.11)k='ear'}
+if(k==='ear'&&S.outName)n=S.outName;
+const ch=OUTK.kind!==k||OUTK.name!==n;OUTK={kind:k,name:n};if(ch)refreshOut()}
+if(navigator.mediaDevices&&navigator.mediaDevices.addEventListener)navigator.mediaDevices.addEventListener('devicechange',()=>setTimeout(detectOut,400));
+A.addEventListener('play',()=>setTimeout(detectOut,900));document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(detectOut,500)});
+document.addEventListener('click',e=>{const a=e.target.closest('[data-a=outperm]');if(a){e.stopPropagation();e.preventDefault();
+navigator.mediaDevices.getUserMedia({audio:true}).then(st=>{st.getTracks().forEach(t=>t.stop());S.outPerm=1;saveS();toast('Headphone names are on');detectOut()}).catch(()=>toast('Permission was not granted'))}
+if(e.target.closest('[data-st=outm]'))setTimeout(detectOut,60)},true);
+document.addEventListener('input',e=>{if(e.target.id==='outn'){S.outName=e.target.value.trim().slice(0,22);saveS();detectOut()}});
+setTimeout(detectOut,1200);
+/* ---- small moments of delight ---- */
+document.addEventListener('click',e=>{const f=e.target.closest('[data-fav]');if(!f)return;const id=f.dataset.fav;requestAnimationFrame(()=>document.querySelectorAll('[data-fav="'+id+'"]').forEach(x=>x.animate&&S.motion&&x.animate([{transform:'scale(1)'},{transform:'scale(1.3)'},{transform:'scale(1)'}],{duration:420,easing:'cubic-bezier(.34,1.56,.64,1)'})))},true);
 $('#file').onchange=async e=>{const f=[...e.target.files];e.target.value='';if(f.length){toast('Adding '+f.length+' file'+(f.length>1?'s':'')+'…');await imp(f)}};
 document.addEventListener('input',e=>{const i=e.target;if(i.id=='bl'){S.blur=+i.value;applyS();saveS()}else if(i.id=='cc'){S.acc=i.value;applyS();saveS()}else if(i.id=='q'){qs=i.value;$('#sres').innerHTML=resHTML()}else if(i.id=='dim'){S.dim=+i.value;applyS();saveS()}else if(i.id=='bgb'){S.bgb=+i.value;applyS();saveS()}else if(i.id=='xf'){S.xf=+i.value;saveS();const l=$('#xfl');if(l)l.textContent=S.xf?S.xf+' s':'Off'}});
 let tx=0;
