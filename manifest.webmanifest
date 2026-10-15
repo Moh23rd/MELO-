@@ -5,9 +5,8 @@
   "description": "A music player for the songs on your device.",
   "start_url": "./",
   "scope": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "display_override": [
-    "fullscreen",
     "standalone"
   ],
   "orientation": "any",
